@@ -1,0 +1,513 @@
+<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="ICBM" content="49.043611, 14.373056"><meta name="DC.title" content="Prevazne neskodny blog"><title>Převážně neškodný...</title>
+    <meta charset=utf-8>
+
+<link rel="shortcut icon" href="http://neskodny.own.cz/favicon.ico" type="image/x-icon">
+
+<link rel="stylesheet" href="pnb.css" type="text/css" title="Styl" media="screen">
+
+<link rel='alternate' type='application/rss+xml' title='RSS 1.0' href='http://neskodny.own.cz/index.php?rss'>
+
+<link rel='alternate' type='application/rss+xml' title='RDF' href='http://neskodny.own.cz/index.php?rdf'>
+
+
+
+
+
+</head>
+
+<body id="kontejner">
+
+
+
+
+<div id="ramec">
+
+<a name="topofpage"></a>
+
+
+<div id="titulek">
+
+<div id="blogtitle">
+
+<a href="index.php" class="nounder">Převážně neškodný...</a>
+
+
+
+
+</div>
+
+
+
+
+
+    <div id="shortmenu">
+
+    .: Rychlé menu:
+
+    <a href="#q_navigace" class="submenu">navigace</a> .:.
+
+    <a href="#q_odkazy" class="submenu">odkazy</a> .:.
+
+    <a href="#q_kategorie" class="submenu">kategorie</a> .:.
+
+    <a href="#q_hledani" class="submenu">vyhledávání</a> .:.
+
+    <a href="#q_archivy" class="submenu">archivy</a> .:.
+
+    <a href="#q_autori" class="submenu">autoři</a>
+
+    :.&nbsp;&nbsp;
+
+    </div>
+
+
+
+</div>
+
+
+
+<div id="container">    
+
+
+
+
+
+<div id="telo">
+
+<P><DIV class=date>09.10.2005</DIV>
+
+
+
+
+
+
+
+<DIV class=posts><p>
+
+<a name="1501"></a>
+
+<span class=byline>
+
+<br><font size="+1"><b><i>Spamfiltr pro komentáře<br><small>V rubrice <a href="index.php?th=3">Internet</a></small></i></b></font></span><br><br>
+
+<div class="prispevek">
+
+Jak filtruji spam v komentářích?<br><br>Proti spamu v komentářích lze bojovat různě&nbsp;&mdash; pokud tedy dojdeme k názoru, že s ním je třeba bojovat.<br><br>Lze bojovat pasivně&nbsp;&mdash; &bdquo;zneplatňováním&rdquo; odkazů, atributem nofollow a podobnými technikami, které vložení spamu nezabrání, ale zruší efekt, který od něho spammeři očekávají.<br><br>Lze bojovat i aktivně, tedy technikami, které by měly zabránit samotnému vložení spamového komentáře.<br><br><b>Blacklist IP adres či spamových domén</b> je řešení srovnatelné s prvními antiviry, které kontrolovaly &bdquo;typické vzorky kódu&rdquo;. Jeho obrovská nevýhoda je nutnost neustále aktualizovat, protože spammeři mění domény a IP adresy rychleji než ponožky.<br><br><b>Blokování určitých typických slov a frází</b> je řešení o něco lepší, protože spousta spammerů se neobtěžuje s tím, aby měnili text, takže vloží třebas deset, dvacet komentářů s naprosto stejným textem a mění jen svoji IP. Na druhou stranu je třeba mít možnost neustále analyzovat nové spamy a hledat charakteristické fráze. Sem spadá i velmi prostý &bdquo;spamfiltr&rdquo; založený na blokování značky &bdquo;A&rdquo;&nbsp;&mdash; ten zase počítá s tím, že každý čtenář je natolik inteligentní, že si přečte, že takové značky vkládat nemá. Navíc s tímhle &bdquo;filtrem&rdquo; už někteří spammeři počítají.<br><br><b>Analýza charakteristických znaků</b> je zatím asi nejdokonalejší metodou aktivní eliminace komentářového spamu. Tato technika vychází z rozpoznávání charakteristických znaků spamového komentáře a jejich &bdquo;ohodnocení&rdquo;, podobně jako ohodnocuje bayes filtr maily.<br><br><b>Metody &bdquo;ověření lidskosti&rdquo;</b>, založené např. na nutnosti opsat nějaké znaky z obrázku, jsou stoprocentně účinné proti robotům. Mají však dvě zásadní nevýhody: Otravují a jsou bezmocné proti spamu vkládanému živými lidmi. (Že takový není? Bude zítra!)<br><br><br>Pro Neškodný jsem použil kombinaci analýzy textu a blokování typických frází. Jednoduchý skript má asi 200 řádků a jeho výsledky jsou pro mne velmi uspokojivé: <i>Od 29.9. do této chvíle bylo vloženo 257 komentářů. Z toho bylo 57 spamových, tedy 22%. Spamfiltr zachytil 54 spamkomentářů, tři propustil. Úspěšnost je tedy cca 95% Jeden nespamový komentář (z dvou set) byl vyhodnocen jako spam&nbsp;&mdash; tedy 0.5% planých poplachů.</i><br><br>Jsem spokojen a mám pocit dobře odvedené práce... <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>Podstatně větší problém je s trackback spamem. Od půlky května přišlo 71 trackback pingů, z toho bylo 70 spamů.  Jevilo se mi proto mnohem rozumnější vypnout celý trackback systém než psát filtr&nbsp;&mdash; i když už mám připraven i ten, opět založený na kombinaci analýzy obsahu a filtrování profláknutých frází. Uvidíme, jak obstojí v testování. 
+
+</div>
+
+<br><br>
+
+Zadal <a href="index.php?aut=1">Arthur Dent</a>, 09.10.2005 15:43:07,
+
+<a href="pnc1501.html#comments">17 komentářů...</a>,  <br>TrackBack URL tohoto příspěvku je <i>http://www.maly.cz/tb.php/1501</i>
+
+<br>
+
+<hr>
+
+
+
+</div>
+
+<div class="cmts"><a name="comments"></a><a href="pnc1501.html">Zpět na článek</a><br><br>	<a href="javascript:Q='';void(btw=window.open('http://www.bloguje.cz/links/sub.php?u='+escape(window.location.href)+'&n=PNBlog - '+encodeURIComponent('Spamfiltr pro komentáře'),'cmtForm','scrollbars=no,width=150,height=150,left=75,top=25,status=yes'));btw.focus();">
+
+	<img src="http://www.bloguje.cz/links/ico.gif" title="HotLinks" alt="HotLinks" ></a><br><br><b>onec</b><a href="pnc1501.html&amp;tc=2#comments"><i>Zobrazit komentáře v chronologickém pořadí</i></a><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21456"></a><b></b>&nbsp;-&nbsp;<a href="mailto:alex zavináč cheese tečka cz">Alex</a>&nbsp;<a href="#" title="www.cheese.cz">(web)</a><br><small>(09.10.2005 14:10:26)</small><br><br>Arthure ten filtr jsi psal sám nebo existuje link? <br><br>Sám jsem si asi před týdnem napsal jednoduché ověřování založené jen na tom, jestli odesíláš komentář ze standardního formuláře na stránce, takže nemusíš opisovat písmena z CAPTCHA obrázku (což odporuje Přístupnosti pro postižené uživatele).<br><br>Naštěstí všichni roboti přistupují ve známých CMS rovnou k PHP souboru pro vložení komentáře a na formuláře kašlou - zatím funguje. Nicméně bayes by stejně byl nejlepší...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21457"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(09.10.2005 14:21:10)</small><br><br>Omlouvám se, nebylo to dostatečně zřejmé: Napsal jsem si ho sám, link neexistuje.<br><br>Jak ověřuješ to, že jde uživatel přes formulář? Všechny &quot;jednoduché&quot; či &quot;únosné&quot; možnosti se ukázaly jako neúčinné a ověřování ticketem je náročné na server (např. na Bloguje by to byly desetitisíce nevyužitých ticketů denně). Poslání z formuláře by šlo ověřit např. pokaždé různým pojmenováním formulářových polí, ale je jen otázka času, kdy se tohle rozšíří a roboti si ten formulář nejdřív stáhnou... Navíc na staticky generovaném Bloguje by to nebylo až tak snadné.<br><br>Ale díky za inspiraci, zkusím něco takového doplnit...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21483"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">DFly</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(09.10.2005 19:32:00)</small><br><br>ahoj Arture, ja uz jsem take resil neco podobneho, a zahazuji komentare bez session, kterou ma bezny strankou prochazejici uzivatel, a zatoven kazda stranka ktera ma formular, definuje take svou specifickou session promennou, a bez ni se komentar neulozi</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21485"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(09.10.2005 19:42:09)</small><br><br>Což počítá s povolenými cookies. Je čím dál tím víc lidí, kteří si myslí, že cookies jsou něco jako vir...<br><br>Navíc session může jistě získat i robot.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21516"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">DFly</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(10.10.2005 04:08:34)</small><br><br>ja mam na serverech --enable_transid, takze na cookies to neni - pokud nejsou, prenasi se to pres URL<br><br>&lt;i&gt;&gt; Navíc session může jistě získat i robot.&lt;/i&gt;<br>to jistě může, ale větsina spamu se pak uz posila primo na dane scripty - a je pravdepodobne ze pokud nekdo neco vklada aniz by prosel strankou kde je formular...<br>kupodivu to odstrani dost spamu (statistiku uz jsem dlouho nedelal), ale uz jsme na toto tema spolu diskutovali, a vime ze nikdy to nebude 100%ni</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21519"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(10.10.2005 09:07:30)</small><br><br>Jojo, jak píšu: To že to </div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21462"></a><b>zabudol si</b>&nbsp;-&nbsp;<a href="mailto:">Markoff</a>&nbsp;<a href="#" title="markoff.biz">(web)</a><br><small>(09.10.2005 16:52:02)</small><br><br>zabudol si spomenut:<br>- moderovanie - kazdy komentar musi byt najprv schvaleny adminom sajty pred publikovanim, asi najdokonalejsia ochrana pred hlupostami v komentaroch obtazujucich druhych citatelov<br><br>- overovanie ludskosti - k tomu bych dodal, ze klasicke opisovanie znakov povazujem za hlupost a viac sa mi pozdava kontrolna otazka, ktora spolahlivo odblokuje zahranicnych citatelov (co vo vacsine pripadov v CZ/SK odblokuje beztak len spamerov), clovek nema problem odpovedat na otazku &quot;siesty den v tydni?&quot;, anglicky robot sa moze strcit, anglicky ludsky spamer sa moze strcit...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21464"></a><b>Re: zabudol si</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(09.10.2005 17:03:47)</small><br><br>Moderování je ochrana &quot;ex post&quot; a spojuje v sobě všechny nepříjemnosti z &quot;kontroly lidskosti&quot; a z pasivní kontroly. Taková ochrana je třeba pro Bloguje naprosto nepoužitelná. Navíc - jakmile někdo začne moderovat komentáře, vyslouží si urážky a řev lůzy. <br><br>&quot;Kontrolní otázka&quot; je zatím použitelná, ale nebude dlouho trvat a bude na pytel. Uvedu názorný příklad: Chodí takové ČESKÉ maily, které vybízejí ke vložení odkazů na nějaké stránky, nebudu jmenovat, známe je... A je nápadně vysoký počet případů, kdy po ostrém odmítnutí této &quot;nabídky&quot; následuje spamovací útok na stránky dotyčného osloveného. Myslím, že je zcela oprávněné předpokládat, že část z těchto útoků mají na svědomí lidé češtinou nebo slovenštinou vládnoucí. A pro takové je &quot;šestý den v týdnu&quot; naprosto směšná obrana.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21468"></a><b>Re: zabudol si</b>&nbsp;-&nbsp;<a href="mailto:">Markoff</a>&nbsp;<a href="#" title="markoff.biz">(web)</a><br><small>(09.10.2005 17:18:49)</small><br><br>mne sa moderovanie celkom pozdava aj ked je to samozrejme pouzitelne len lokalne vzdy na 1 konkretnu sajtu a aj ta moze mat len urcity traffic, prosto nie prilis vela komentarov, myslim ze kopec ludi by si cez nu nemal problem ukocirovat svoje komentare, aj ked jasne ze to nie je systemova ochrana<br><br>kontrolna otazka je vyborna na zahranicny spam, samozrejme domovsky nijako neriesi, to uz ozaj jedine ze by chcel clovek filtrovat naozaj citatelov podla inteligencie a pod. s naozaj tazkymi otazkami ci tykajucimi sa predoslych clankov, takze pravidelny citatel by vedel odpoved<br><br>dalsim riesenim, asi najhorsim pre pouzitie na weblogoch su whitelisty prip. registracia, whitelisty su este ta lepsia vec, kedy clovek jednorazovo schvali urcity nick (prip. v kombinacii s IP) a moderovacia funkcia na schvalenie prispievatela je pouzita len pri prvom komentari, registracia pre moznost komentovania je uz tvrdsi variant celkom vhodny pre zive.sk/sme.sk ale nevhodny pre male blogy kde tym obtazovat tych par citatelov nema zmysel lebo to odpudi este aj posl. par vernych</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21471"></a><b>Re: zabudol si</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(09.10.2005 17:24:43)</small><br><br>Jojo... Přesně jak píšeš - to je použitelné pro jednotlivé weby, kde si to ten člověk uhlídá. Ale na Bloguje je to naprosto nepoužitelné - tedy pokud to má být univerzální řešení.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21480"></a><b>A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:kyblicek(na)kyblsoft tečka cz">Aleš Janda</a>&nbsp;<a href="#" title="www.svice.cz">(web)</a><br><small>(09.10.2005 18:46:30)</small><br><br>Co např. udělat ochranu založenou na JavaScriptu? V PHP vygeneruji &quot;náhodný&quot; JavaScript, který při odeslání formuláře dá do hidden políčka nějakou vypočítanou hodnotu. A tu pak zkontroluji <img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br>Nutností je zapnutý JavaScript, ale když už někdo chce někam psát, tak si ho snad zapnou i ti největší paranoici.<br><br>A drtivá většina robotů JavaScript prostě neumí... <img src="support/icon_wink.gif" alt="{wink}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21481"></a><b>Re: A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(09.10.2005 18:53:26)</small><br><br>To je velmi hezký řešení a na solitárním webu ho lze jistě použít. Má ovšem několik nevýhod: První budou řvát lidi s Lynxem. Druzí lidé s nějakými podivnými prohlížeči. Třetí budou řvát paranoici, kteří se bojí JS jako čert kříže. A čtvrtí zareagují - zcela potichu - autoři spambotů, kteří k informacím o tom, jak se jmenují na tom kterém webu políčka a skripty, přidají ještě informaci o algoritmu. <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21515"></a><b>Re: A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:">Roj</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(10.10.2005 02:11:06)</small><br><br>Ale myslenka menit NAZVY neviditelnych imputu mi pripada zajimava. Nechalo by se to vyexpirovat po, treba 1 hodine. Jak by se na tohle chytali spamboti?</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21518"></a><b>Re: A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(10.10.2005 09:06:50)</small><br><br>To jsem už zkoušel. Jenže pak řvali lidi, co si třeba otevřeli článek a začali smolit komentář, pak to nechali a třeba za dvě hodiny to odeslali...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21525"></a><b>Re: A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:">Roj</a>&nbsp;<a href="#" title="roj.bloguje.cz">(web)</a><br><small>(10.10.2005 09:55:32)</small><br><br>Dve reseni: <br>1.Dat k formulari upozorneni, at pred psanim stranku reloudnou, coz je zadouci i z hlediska toho, z mezitim mohly pribyt komentare, ktere zcela zmeni smysl toho, co dotycny chce napsat.<br>2.Po expiraci vratit HTML, kde bude napsano, at si nasledujici text uzivatel zkopiruje, vysmahnout mu ten post a dat link na &quot;Znovu odeslat&quot;.<br><br>To, myslim, zachrani vetsinu otalecu, kteri pouzivaji mozek.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21527"></a><b>Re: A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(10.10.2005 10:00:44)</small><br><br><img src="support/icon_biggrin.gif" alt="{big grin}" align="middle"> &quot;Ale my nechcem nic nikam kopírovat! Chceme jen napsat komentář a jít!&quot;<br><br>Tento komentář vydal Sasun - Komentengou!</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid21526"></a><b>Re: A co ochrana JavaScriptem?</b>&nbsp;-&nbsp;<a href="mailto:">Roj</a>&nbsp;<a href="#" title="roj.bloguje.cz">(web)</a><br><small>(10.10.2005 09:59:24)</small><br><br>Eventualne klidne ten komentar zapsat do db s priznakem &quot;nepublikovat&quot; a otalece nejak donutit, aby ho musel mozkovou cinnosti zverejnit, treba GAPTCHA nebo kontrolnim dotazem.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table>	<a href="javascript:Q='';void(btw=window.open('http://www.bloguje.cz/links/sub.php?u='+escape(window.location.href)+'&n=PNBlog - '+encodeURIComponent('Spamfiltr pro komentáře'),'cmtForm','scrollbars=no,width=150,height=150,left=75,top=25,status=yes'));btw.focus();">
+
+	<img src="http://www.bloguje.cz/links/ico.gif" title="HotLinks" alt="HotLinks" ></a><br><a href="pnc1501.html">Zpět na článek</a><br><br></div><!-- 
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" 
+
+         xmlns:dc="http://purl.org/dc/elements/1.1/"> 
+
+<rdf:Description 
+
+    rdf:about="pnc1501.html" 
+
+    trackback:ping="http://www.maly.cz/tb.php/1501" 
+
+    dc:title="Spamfiltr pro komentáře" 
+
+    dc:identifier="pnc1501.html" 
+
+    dc:subject="Internet" 
+
+    dc:description="Jak filtruji spam v komentářích?" 
+
+    dc:creator="Arthur" 
+
+    dc:date="2005-10-09T15:43:07+01:00" /> 
+
+</rdf:RDF> 
+
+-->    
+
+
+
+
+
+
+</div><!--telo-->
+
+
+
+
+
+
+
+<div id="navigace">
+
+      <div class="linky">
+
+      <a name="q_navigace"></a>
+
+      <div class="links-title">Navigace</DIV>
+
+      <p>
+
+      <a href="index.php">.: Úvodní stránka</a><br>
+
+<a href="index.php?text">.: Text</a><br>
+
+<a href="index.php?rss">.: RSS/XML</a> - <a href="index.php?rdf">RDF</a><br>
+
+<a href="index.php?setshort">.:&nbsp;Přepnout zobrazení</a><br>
+
+<a href="index.php?design">.:&nbsp;Nový design</a><br>
+
+<a href="index.php?stats">.: Statistiky</a><br><br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+
+<div class="linky">
+<div class="links-title">      
+AdSense</div>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-3772893178572611";
+google_ad_width = 120;
+google_ad_height = 600;
+google_ad_format = "120x600_as";
+google_ad_type = "text_image";
+//2007-06-08: PNB
+google_ad_channel = "5067511639";
+//-->
+</script>
+<!--script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script-->
+
+</div>
+
+<div class="linky">
+
+<a name="q_odkazy"></a>
+
+<div class="links-title">      
+
+Odkazy</div>
+
+<br>
+
+<a href="http://stanicezoo.sweb.cz/">ing. Cheval</a><br>
+
+
+
+<a href="http://www.pixy.cz/pixylophone">Pixylophone</a><br>
+
+
+
+<a href="http://lena.bloguje.cz">Lena</a><br>
+
+
+
+<a href="http://www.egicz.cz/denik/denik.php">Egi</a><br>
+
+
+
+<a href="http://scalex.bloguje.cz/index.php">Propečený Scalex</a><br>
+
+
+
+<a href="http://ostravak.bloguje.cz/">Ostravak bloguje</a><br>
+
+
+
+<a href="http://letinka.bloguje.cz">Letinka</a><br>
+
+
+
+<a href="http://www.dgx.cz/trine">DGX</a><br>
+
+
+
+<a href="http://dobrman.bloguje.cz/">Dobrman Mates</a><br>
+
+
+
+<!--a href="http://roj.bloguje.cz/">Roj</a><br-->
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<a name="q_kategorie"></a>
+
+<div class="links-title">      
+
+Kategorie</div>
+
+<br>
+
+<a href="index.php?th=1">Ze života</a><br>
+
+
+
+<a href="index.php?th=2">Počítače</a><br>
+
+
+
+<a href="index.php?th=3">Internet</a><br>
+
+
+
+<a href="index.php?th=4">Programování</a><br>
+
+
+
+<a href="index.php?th=5">Knižní koutek</a><br>
+
+
+
+<a href="index.php?th=6">Čeština</a><br>
+
+
+
+<a href="index.php?th=7">Reklama</a><br>
+
+
+
+<a href="index.php?th=8">Zajímavosti</a><br>
+
+
+
+<a href="index.php?th=9">Šlendrián</a><br>
+
+
+
+<a href="index.php?th=10">Filmy</a><br>
+
+
+
+<a href="index.php?th=11">Dobrou chuť</a><br>
+
+
+
+<a href="index.php?th=12">Co nás čeká</a><br>
+
+
+
+<a href="index.php?th=13">Hudba</a><br>
+
+
+
+<a href="index.php?th=14">Zamyšlení</a><br>
+
+
+
+<a href="index.php?th=15">Politika</a><br>
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+
+
+<div class="linky">
+
+<a name="q_hledani"></a>
+
+<div class="links-title">      
+
+Vyhledávání</div>
+
+<br>
+
+
+
+<center>
+
+<form method="post" action="index.php"><input type="text" name="co" size="13"><br><inputtype="submit"name="find" value="V článcích..." class="but"></form>
+
+</center>
+
+
+
+</td></tr></table>
+
+
+
+
+
+
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>      
+
+
+
+<div class="linky">
+
+<a name="q_archivy"></a>
+
+<div class="links-title">      
+
+Archivy</div><br><a href="index.php?archive=200510" class="links">říjen 2005</a><br><a href="index.php?archive=200509" class="links">září 2005</a><br><a href="index.php?archive=200508" class="links">srpen 2005</a><br><a href="index.php?archive=200507" class="links">červenec 2005</a><br><a href="index.php?archive=200506" class="links">červen 2005</a><br><a href="index.php?archive=200505" class="links">květen 2005</a><br><a href="index.php?archive=200504" class="links">duben 2005</a><br><a href="index.php?archive=200503" class="links">březen 2005</a><br><a href="index.php?archive=200502" class="links">únor 2005</a><br><a href="index.php?archive=200501" class="links">leden 2005</a><br><a href="index.php?archive=200412" class="links">prosinec 2004</a><br><a href="index.php?archive=200411" class="links">listopad 2004</a><br><a href="index.php?archive=200410" class="links">říjen 2004</a><br><a href="index.php?archive=200409" class="links">září 2004</a><br><a href="index.php?archive=200408" class="links">srpen 2004</a><br><a href="index.php?archive=200407" class="links">červenec 2004</a><br><a href="index.php?archive=200406" class="links">červen 2004</a><br><a href="index.php?archive=200405" class="links">květen 2004</a><br><a href="index.php?archive=200404" class="links">duben 2004</a><br><a href="index.php?archive=200403" class="links">březen 2004</a><br><a href="index.php?archive=200402" class="links">únor 2004</a><br><a href="index.php?archive=200401" class="links">leden 2004</a><br><a href="index.php?archive=200312" class="links">prosinec 2003</a><br><a href="index.php?archive=200311" class="links">listopad 2003</a><br><a href="index.php?archive=200310" class="links">říjen 2003</a><br><a href="index.php?archive=200309" class="links">září 2003</a><br><a href="index.php?archive=200308" class="links">srpen 2003</a><br><a href="index.php?archive=200307" class="links">červenec 2003</a><br><a href="index.php?archive=200306" class="links">červen 2003</a><br><a href="index.php?archive=200305" class="links">květen 2003</a><br><a href="index.php?archive=200304" class="links">duben 2003</a><br><a href="index.php?archive=200303" class="links">březen 2003</a><br>
+
+<br>
+
+<center>
+
+<a href="index.php?archive=0">Všechny archivy</A></center>
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<div class="links-title">      
+
+Hrálo mi tu:</div><br>
+
+<center>
+
+<p>Nahoru po schodisti dolu band - Praporcice Hildegarda <i>(Album Prvni )</i></p><p>Kokrment - zavolejmyjmeno</p><p>Kokrment - zavolejmyjmeno</p><p>Depeche Mode - 02 - Walking In My Shoes <i>(The Singles 86>98 (cd 2 of 2))</i></p><p>Jiří Korn - Karel nese asi čaj <i>(Totální hity)</i></p>
+
+</center>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<div class="links-title">      
+
+Počítadla atd.</div><br>
+
+<center>
+
+<!-- extra2 -->
+
+<a href="http://counter.cnw.cz/ucet.cgi?login=blogmalycz" target=_blank><img src="http://counter.cnw.cz/dungeon.cgi?blogmalycz&amp;6&amp;000000&amp;fff1d8&amp;on" alt="[CNW:Counter]" border=0></A><br>
+
+<!-- extra3 -->
+
+<SCRIPT language="JavaScript" type="text/javascript">
+
+<!-- 
+
+document.write("<IMG src=\"http://counter.cnw.cz/trackit.cgi?blogmalycz&t2&" + escape(top.document.referrer) + "\" alt=\"CNW:Tracker\" border=\"0\" width=\"11\" height=\"11\">"); 
+
+// -->
+
+</SCRIPT>      <br>
+
+<!-- extra9 -->
+
+<a href="http://www.neskodny.own.cz/arthurdent.txt">Veřejný PGP klíč - Arthur Dent</a><br>
+
+
+
+      <P><A href="http://www.maly.cz/"><IMG 
+
+      alt="[Powered by Blox]" src="blox.gif" 
+
+      width="88" border="0"></A> </P>
+
+</center>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<a name="q_autori"></a>
+
+<div class="links-title">      
+
+Autoři</div>
+
+<div class="autori">Arthur Dent</div>
+
+ICQ: <img src='http://wwp.icq.com/scripts/online.dll?icq=158504315&amp;img=5' alt="ICQ: 158504315"> 158504315<br>
+
+MAIL: <a href="mailto:blog@maly.cz">blog at maly.cz</a>
+
+<div class="autori">White Dog</div>
+
+ICQ: <img src='http://wwp.icq.com/scripts/online.dll?icq=155168543&amp;img=5' alt="ICQ: 155168543"> 155168543<br>
+
+MAIL: <a href="mailto:White_dog@seznam.cz">White_dog at seznam.cz</a>
+
+<br><br><center><b>V žádném případě si nepřejeme na tyto adresy dostávat reklamní maily, tak to prosím respektujte!</b></center>
+
+<br><br><center><a href="http://neskodny.own.cz/netiketa.html"><img src="netiketa_velka.gif" border="0" alt="netiketa"></a></center>
+
+
+
+<div class="links-title"><a href="#topofpage" class="links">Nahoru</a></div>
+
+</div>
+
+
+
+</div> <!--navigace-->
+
+
+
+
+
+<hr style="clear:both;margin-top:0;visibility:hidden;">
+
+</div>
+
+
+
+
+
+</div>
+
+</body></html>
+
+
+
+

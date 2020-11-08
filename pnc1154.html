@@ -1,0 +1,513 @@
+<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="ICBM" content="49.043611, 14.373056"><meta name="DC.title" content="Prevazne neskodny blog"><title>Převážně neškodný...</title>
+    <meta charset=utf-8>
+
+<link rel="shortcut icon" href="http://neskodny.own.cz/favicon.ico" type="image/x-icon">
+
+<link rel="stylesheet" href="pnb.css" type="text/css" title="Styl" media="screen">
+
+<link rel='alternate' type='application/rss+xml' title='RSS 1.0' href='http://neskodny.own.cz/index.php?rss'>
+
+<link rel='alternate' type='application/rss+xml' title='RDF' href='http://neskodny.own.cz/index.php?rdf'>
+
+
+
+
+
+</head>
+
+<body id="kontejner">
+
+
+
+
+<div id="ramec">
+
+<a name="topofpage"></a>
+
+
+<div id="titulek">
+
+<div id="blogtitle">
+
+<a href="index.php" class="nounder">Převážně neškodný...</a>
+
+
+
+
+</div>
+
+
+
+
+
+    <div id="shortmenu">
+
+    .: Rychlé menu:
+
+    <a href="#q_navigace" class="submenu">navigace</a> .:.
+
+    <a href="#q_odkazy" class="submenu">odkazy</a> .:.
+
+    <a href="#q_kategorie" class="submenu">kategorie</a> .:.
+
+    <a href="#q_hledani" class="submenu">vyhledávání</a> .:.
+
+    <a href="#q_archivy" class="submenu">archivy</a> .:.
+
+    <a href="#q_autori" class="submenu">autoři</a>
+
+    :.&nbsp;&nbsp;
+
+    </div>
+
+
+
+</div>
+
+
+
+<div id="container">    
+
+
+
+
+
+<div id="telo">
+
+<P><DIV class=date>22.10.2004</DIV>
+
+
+
+
+
+
+
+<DIV class=posts><p>
+
+<a name="1154"></a>
+
+<span class=byline>
+
+<br><font size="+1"><b><i>O šifrování, díl první<br><small>V rubrice <a href="index.php?th=8">Zajímavosti</a></small></i></b></font></span><br><br>
+
+<div class="prispevek">
+
+Začínám trochou teorie, tak to bude o něco delší. Ale netřeba se bát, nebude to nijak náročné! Povíme si o tom, jak funguje takové šifrování...<br><br><b>Motto:</b> <i>Já vedu rozhovory, a ať si je každý odposlouchává, jak chce. Když si je člověk jistý, že nic nespáchal, může mu to být jedno... &nbsp;&mdash;  Jiří Kolář, prezident Policie ČR</i><br><br><br>Slíbil jsem seriál o šifrování spolu s praktickým návodem a ukázkami. Ale než se dostanu k těm ukázkám a k praxi, napíšu něco obecného o kryptografii. Vezmu to ale zkrátka&nbsp;&mdash; nechci suplovat odborná či populární pojednání (tedy o Enigmě se tu nic nového nedozvíte).<br><br>V současnosti je kryptografie obor úzce spojený s matematikou a používající podivné věty o běžných věcech, jako je třeba <i>dělení</i>, <i>umocňování</i> nebo <i>prvočíslo</i>. Těchto základů si nebudu všímat, natož abych je popisoval nebo nedejbůh vysvětloval. Pominu i historii šifrování a jen letmo se zmíním o pramáti šifer, o takzvané Caesarově šifře.<br><br>Caesarova šifra byla (z dnešního pohledu) velmi jednoduchá, ovšem nejspíš účinná&nbsp;&mdash; vzhledem k tomu, kdo byl Caesarův nepřítel. Její princip byl následující: Caesar napsal text, který chtěl zašifrovat, například: <i>"Zabil jsem MCMLVII Galů, MDXLI Germánů a jednoho advokáta. Brutovi vyřiďte, že ho zapíchnu, až se vrátím!"</i> a pak šel písmenko po písmenku a každé nahradil tím, které bylo o tři místa v abecedě dál. Takže místo A napsal D, místo B napsal E atd. až k Z, místo kterého napsal C... Zašifrovaná zpráva pak začínala slovy &bdquo;Cdelo mvhp...&rdquo; Takhle zašifrovanou zprávu odeslal Caesar do Říma, tam si ji přečetli senátoři a hned jim bylo všechno jasné: <i>Caesar zase nasával!</i> Ne, vážně&nbsp;&mdash; tam seděl někdo, kdo znal princip té šifry, a zprávu rozluštil.<br><br>Z tohoto stručného popisu je vidět, že pro šifrování jsou potřeba tři věci: Zpráva, kterou chci šifrovat, šifrovací klíč a dešifrovací klíč. U Caesarovy šifry byl šifrovací klíč ten výše zmíněný postup (+3) a dešifrovací klíč byl postup opačný. Důležité je, že dešifrovací klíč bylo možné velmi jednoduše zjistit z klíče šifrovacího a obráceně. Což není dnes příliš bezpečné... Tenkrát to ovšem stačilo.<br><br>Ve 20. století zažily šifry nebývalý rozvoj&nbsp;&mdash; podepsaly se na tom především dvě světové války a poválečný rozmach výpočetní techniky. V současnosti je snad nejpoužívanejším způsobem šifrování zpráv tzv. <b>šifra s veřejným klíčem</b>. Umožňuje hlavně dvě věci: Podepsat (autorizovat) zprávu a také to, že kdokoli může poslat určenému příjemci zašifrovanou zprávu, nečitelnou pro nikoho jiného. <br><br>Jak ta šifra funguje? Představte si trezor s dvěma zámky. Do každého zámku pasuje jiný klíč&nbsp;&mdash; jsou tedy dva klíče, nazvěme si je S a V. Trezor funguje tak, že jej zamknete jakým klíčem chcete, ovšem odemknout ho pak můžete jen tím druhým. Zamknete-li tedy trezor klíčem S, už ho tím samým klíčem neodemknete a musíte použít klíč V. A obráceně. Klíče S a V nejsou navíc zaměnitelné ani nejsou &bdquo;zjistitelné&rdquo;, to znamená že máte-li např. v ruce klíč V, nedokážete podle něj vytvořit protipól, tedy klíč S.<br><br>A teď to podstatné: Vy máte klíč S, u sebe, schovaný, tajný. Klíč V je veřejně přístupný, stejně tak jako trezor. Když vám někdo chce poslat zprávu, udělá to tak, že ji vloží do trezoru a trezor zamkne klíčem V. Jediný, kdo se teď ke zprávě dostane, je majitel klíče S&nbsp;&mdash; tedy vy. Kdokoli vám tedy může poslat veřejně (třeba mailem) zašifrovanou zprávu a k obsahu se dostanete jedině vy, nikdo jiný.<br><br>Stejný postup lze použít i pro ověření autora, laicky řečeno k &bdquo;podepsání&rdquo; zprávy. Vy napíšete zprávu, vložíte ji do trezoru a zamknete svým soukromým klíčem S. Teď se k té zprávě dostane čtenář pouze tehdy, když trezor odemkne klíčem V&nbsp;&mdash; a tím je zaručeno, že trezor byl zamčen vaším klíčem, jinými slovy že vy jste odesilatel.<br><br>Ve světě počítačů je tenhle princip použit v programu PGP a jeho klonech. (Na podobném principu pracuje i onen známý digitální podpis, [ironie] který tak rádi uznávají čeští úředníci [konec ironie].) V roli trezoru je tento program, klíče jsou malé soubory. Při prvním spuštění vám program vygeneruje dvojici klíčů, veřejný a soukromý. Veřejný vystavíte někde na Internetu, přidáte ho do patičky mailu, zkrátka ho nějak publikujete. Soukromý je jen pro vás a ten si musíte hlídat jako oko v hlavě! (Kvůli bezpečnosti je navíc chráněn heslem.)<br><br>Jak si takový program nainstalujete? Jak si vygenerujete šifrovací klíč? Jak s jeho pomocí zašifrujete zprávu? To napíšu příště&nbsp;&mdash; bude-li zájem... (Ale můžete se z pilnosti poohlédnout po internetu, návodů je dost. Hledejte klíčové slovo PGP, popř. GPG.)<br><br>Ještě dodám, že takovéhle praktiky občanů se státu samosebou nelíbí a státy hledají způsoby, jak číst svým poddaným i zašifrované zprávy. Špatné na tom je to, že každá šifra je prolomitelná. Dobré ale je to, že na prolomení jedné zprávy je potřeba tak velký výpočetní výkon a tolik času, že se to zkrátka nevyplatí.<br><br>A pokud byste chtěli vidět, jak vypadá takový veřejný klíč, podívejte se na <a href="http://www.maly.cz/arthurdent.txt">můj veřejný PGP klíč</a>. 
+
+</div>
+
+<br><br>
+
+Zadal <a href="index.php?aut=1">Arthur Dent</a>, 22.10.2004 10:05:53,
+
+<a href="pnc1154.html#comments">19 komentářů...</a>,  <br>TrackBack URL tohoto příspěvku je <i>http://www.maly.cz/tb.php/1154</i>
+
+<br>
+
+<hr>
+
+
+
+</div>
+
+<div class="cmts"><a name="comments"></a><a href="pnc1154.html">Zpět na článek</a><br><br>	<a href="javascript:Q='';void(btw=window.open('http://www.bloguje.cz/links/sub.php?u='+escape(window.location.href)+'&n=PNBlog - '+encodeURIComponent('O šifrování, díl první'),'cmtForm','scrollbars=no,width=150,height=150,left=75,top=25,status=yes'));btw.focus();">
+
+	<img src="http://www.bloguje.cz/links/ico.gif" title="HotLinks" alt="HotLinks" ></a><br><div class="trackback">Reakce na jiných stránkách (TrackBack)<br>WELL.DONE (c) Radek Hulán: <a href="http://hulan.info/radek.hulan/?item=sifrovani-pro-lamy-instalace-gnupg-gpg-na-windows&amp;category=security">Šifrování pro lamy - instalace GnuPG (GPG) na Windows</a><br>WELL.DONE (c) Radek Hulán: <a href="http://hulan.info/radek.hulan/?item=sifrovani-pro-lamy-thunderbird-s-enigmail-a-gnupg&amp;category=security">Šifrování pro lamy - Thunderbird s Enigmail a GnuPG</a><br>WELL.DONE (c) Radek Hulán: <a href="http://hulan.info/radek.hulan/?item=sifrovani-pro-lamy-instalace-nejnovejsiho-gnupg-1-4-0a&amp;category=security">Šifrování pro lamy - instalace nejnovějšího GnuPG 1.4.0a</a><br></div><a href="pnc1154.html&amp;tc=2#comments"><i>Zobrazit komentáře v chronologickém pořadí</i></a><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12418"></a><b>Hezké...</b>&nbsp;-&nbsp;<a href="mailto:ladicek zavináč students tečka zcu tečka cz">Ladislav Thon</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(22.10.2004 10:30:21)</small><br><br>Hezké, nasávající Caesar je super <img src="support/icon_smile.gif" alt="{smile}" align="middle"> Ale chybí mi zmínka o certifikačních autoritách. On takový pár klíčů si může vygenerovat kdekdo, ale jak zjistím, že patří skutečně tomu, o kom se tvrdí, že mu patří?</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12428"></a><b>Re: Hezké...</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="#" title="maly.cz">(web)</a><br><small>(22.10.2004 11:53:17)</small><br><br>Ano, k tomu se dostanu. Hnedle jak popíšu instalaci a použití, tak přijde řada na podepisování klíčů, certifikační autority a krátkou exkurzi do pružného přístupu Českého Úředníka(tm).</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12431"></a><b></b>&nbsp;-&nbsp;<a href="mailto:mirek tečka hyza zavináč seznam tečka cz">mao_boy</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(22.10.2004 13:00:54)</small><br><br>...&lt;i&gt;podivne věty o běžných věcech.&lt;/i&gt;<br><br>- to je pěkně řečeno<img src="support/icon_biggrin.gif" alt="{big grin}" align="middle">))<br><br>Škoda jen, že ses o tom víc nerozepsal. Vůbec by to nemuselo být nudné a suchopárné. Naopak pojednání o malé Fermatově větě, faktorizaci velkých čísel, Mersennova prvočísla, testech prvočíselnosti (ARCLP apd.)...no nic, ale i tak je to fajn.<br><br>a propos: <a href="#">[www.mersenne.org/prime.htm]</a> :<br><br>&lt;i&gt;On May 15, 2004, Josh Findley discovered the 41st known Mersenne Prime, 2^24036583-1. The number is nearly a million digits larger than our last find and is now the largest known prime number!&lt;/i&gt;<br><br>ps: a znáte tenhle?<br><br>&lt;b&gt;How they prove that all odd integers higher than 2 are prime?&lt;b&gt;<br><br>Mathematician: 3 is a prime, 5 is a prime, 7 is a prime, and by induction - every odd integer higher than 2 is a prime.<br><br>Physicist: 3 is a prime, 5 is a prime, 7 is a prime, 9 is an experimental error, 11 is a prime,...<br><br>Engineer: 3 is a prime, 5 is a prime, 7 is a prime, 9 is a prime, 11 is a prime,...<br><br>Programmer: 3 is a prime, 5 is a prime, 7 is a prime, 7 is a prime, 7 is a prime,...<br><br>Salesperson: 3 is a prime, 5 is a prime, 7 is a prime, 9 -- we'll do for you the best we can,...<br><br>Computer Software Salesperson: 3 is prime, 5 is prime, 7 is prime, 9 will be prime in the next release,...<br><br>Biologist: 3 is a prime, 5 is a prime, 7 is a prime, 9 -- results have not arrived yet,...<br><br>Advertiser: 3 is a prime, 5 is a prime, 7 is a prime, 11 is a prime,...<br><br>Lawyer: 3 is a prime, 5 is a prime, 7 is a prime, 9 -- there is not enough evidence to prove that it is not a prime,...<br><br>Accountant: 3 is prime, 5 is prime, 7 is prime, 9 is prime, deducing 10% tax and 5% other obligations.<br><br>Statistician: Let's try several randomly chosen numbers: 17 is a prime, 23 is a prime, 11 is a prime...<br><br>Professor: 3 is prime, 5 is prime, 7 is prime, and the rest are left as an exercise for the student.<br><br>Computational linguist: 3 is an odd prime, 5 is an odd prime, 7 is an odd prime, 9 is a very odd prime,...<br><br>Psychologist: 3 is a prime, 5 is a prime, 7 is a prime, 9 is a prime but tries to suppress it,...<br></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12433"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(22.10.2004 13:39:39)</small><br><br>No, je s tím drobný problém.<br><br>Napíšu třeba, že &quot;rozložit součin dvou malých prvočísel na tato prvočísla není příliš těžké, ale pro čísla mající třeba 500 míst je to těžko řešitelný úkol...&quot; Ale taky abych napsal proč je to těžko řešitelný úkol, jaká jsou řešení atd. A měl bych popsat některé metody, např. Pollardovu ró-metodu... A obávám se, že tohle už bych nebyl schopen podat tak, aby to zajímalo víc lidí. Neříkám že to není zajímavé, ale - nedokázal bych to podat.<br><br>Pokud se toho chceš ujmout (nebo někdo jiný... nějaký matematik... Vlku, dívám se tvým směrem!<img src="support/icon_smile.gif" alt="{smile}" align="middle"> ), budu rád a s chutí a s díky to tu zveřejním.<br><br>Spíš to ale nechám na poslední díl, jako &quot;zajímavosti&quot;, a budu odkazovat na prameny...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12434"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:ofr zavináč centrum tečka cz">ofr</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(22.10.2004 14:46:36)</small><br><br>začíná to dobře - keep crypting...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12441"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:jannemec zavináč centrum tečka cz">Vlk</a>&nbsp;<a href="#" title="www.jannemec.com">(web)</a><br><small>(23.10.2004 20:49:25)</small><br><br>Šiframa jsem se nikdy super moc nezajímal, takže snad něco v komentářích, ale jinak je můj styl &quot;přehledný, jasný, ale strašně suchý&quot; jak prohlásila naše paní profesorka ČJ na gymplu ...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12442"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="#" title="maly.cz">(web)</a><br><small>(23.10.2004 21:49:31)</small><br><br>Nemyslel jsem přímo šifry... Byl bys schopen vysvětlit, proč je rozklad velkých čísel na prvočísla o tolik těžší než rozklad menších? Jsi schopen vysvětlit, jak se kontroluje prvočíselnost? Dokázal bys vysvětlit, jak je to s těmi prvočísly &quot;(2^p) - 1&quot;?<br><br>A byl bys schopen vysvětlit mně, čistě soukromě, jaký je rozdíl mezi počítačovým operátorem &quot;mod&quot; (zbytek po dělení) a matematickým &quot;modulo&quot;? Jak jsem tak na to koukal, tak jsem zjistil, že &quot;je to to samé, ale je to jiné&quot;, jak prohlásila naše paní profesorka matematiky. <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12445"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">Marian Kechlibar</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(24.10.2004 00:13:12)</small><br><br>Tak ses trefil do otazek, ktere delam uz dost dlouho <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br>Rozdil mezi matematickym mod a pocitacovym mod v podstate ani neni. Oboje znamena ¨zbytek po deleni¨. S tim, ze matematici jsou zvykli povazovat za platne hodnoty mod r cisla 0 az r-1, zatimco pocitac ti obecne vyplivne hodnoty od -(r-1)/2 do (r-1)/2. To znaji matematici taky, ale rikaji tomu ¨least absolute value mod r¨.<br>Cisla 2^p-1 nejsou obecne prvocisla. Napriklad 2^11-1 = 2047 = 23*89. Jsou to vsak jedine vyrazy typu 2^n-1, ktere maji sanci prvocislem byt. Dukaz je trivialni, napis si n=mk a pouzij binomickou vetu na vyraz (2^m)^k-1 = (2^m)-1^k.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12451"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="#" title="maly.cz">(web)</a><br><small>(24.10.2004 10:35:16)</small><br><br>Fajn... A teď to vysvětli ostatním čtenářům <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>Není ta definice počítačového a matematického MOD přesně obráceně? V jazycích co znám je MOD definován jako zbytek po celočíselném dělení a počítá se takto:<br><br>a MOD b = (a - (INT (a/b) * b))<br><br>Jeho výsledek je tedy v intervalu &lt;0;b-1&gt;</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12456"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">Marian Kechlibar</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(24.10.2004 14:35:20)</small><br><br>Zdar,<br><br>no, hele, programuju faktorizaci kvadratickym sitem, a mel jsem prave opacne problemy: operator % mi vracel zaporne hodnoty &quot;least absolute value&quot;, ac jsem chtel hodnoty 0..p-1. Naopak matematicka definice a = bq+r stanovi, ze 0&lt;= r &lt; q <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12457"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="#" title="maly.cz">(web)</a><br><small>(24.10.2004 16:08:54)</small><br><br>Jazyk / překladač / vstupní hodnoty ?</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12525"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">Marian Kechlibar</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(25.10.2004 22:17:26)</small><br><br>C++ / GCC 3.3.1 / vstupní hodnoty typu signed int</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12466"></a><b>Re: popis</b>&nbsp;-&nbsp;<a href="mailto:">ptr</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(25.10.2004 10:26:24)</small><br><br>čauky,<br>nevím, jestli jsem dobře pochopil Tvé tvrzení. Jestli ano, paxním nesouhlasím. Samozřejmě existují i jiná prvočísla než Mersen(n)ova (2 exp n - 1), ale u těchto čísel umíme lépe, rychleji a radostněji určit, zda dané číslo je nebo není prvočíslem. To je obecně dost velký problém, pokud to chceme dělat nějakým postupem (algoritmem) - třeba GNFS. Teď je ale velice IN mluvit o &quot;zkratkách&quot; v řešení tohohle problému (Shore-ův algoritmus a kvantová počitadla, Manindra apod.). No, to už jsem se dostal dál, než jsem chtěl: původní moje tvrzení je jednoduché: NENÍ PRAVDA, ŽE KAŽDÉ PRVOČÍSLO MUSÍ BÝT VE TVARU (2 exp N - 1).</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12435"></a><b>Dobre ale stare stranky</b>&nbsp;-&nbsp;<a href="mailto:dfly zavináč runway tečka cz">DFly</a><br><small>(22.10.2004 16:17:09)</small><br><br>doporucuji kouknout na <a href="#">[www.krypta.cz/]</a> <br>skoda jen ze za posledni dva roky uz neni moc aktualizovano</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12437"></a><b>Skvělý</b>&nbsp;-&nbsp;<a href="mailto:">HUB</a>&nbsp;<a href="#" title="hub.bloguje.cz">(web)</a><br><small>(23.10.2004 14:55:05)</small><br><br>Super, těším se na pokračování</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid12439"></a><b>Šifrování na internetu</b>&nbsp;-&nbsp;<a href="mailto:">Martin - Techblog</a>&nbsp;<a href="#" title="techblog.srubar.net/">(web)</a><br><small>(23.10.2004 18:29:52)</small><br><br>Pokračování článku by bylo jistě zajímavé - té matiky bych se vážně nebál, zvlášť proto, že už před dlouhou dobou vyšel dokonalý seriál článků Šifrování na internetu od skvělého autora Hynka Hanke. Zdá se mi, že pokrývá tutéž oblast, jaké se chceš věnovat Ty.<br><br>Odkaz vede na poslední článek, kde jsou odkazy na všechny předcházející. Rozhodně stojí za přečtení.<br><a href="#">[www.novinky.cz/archiv/Index/Internet/7623.html]</a><br><br>Takže se přimlouvám za něco méně populárního a více matematického. <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table>	<a href="javascript:Q='';void(btw=window.open('http://www.bloguje.cz/links/sub.php?u='+escape(window.location.href)+'&n=PNBlog - '+encodeURIComponent('O šifrování, díl první'),'cmtForm','scrollbars=no,width=150,height=150,left=75,top=25,status=yes'));btw.focus();">
+
+	<img src="http://www.bloguje.cz/links/ico.gif" title="HotLinks" alt="HotLinks" ></a><br><a href="pnc1154.html">Zpět na článek</a><br><br></div><!-- 
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" 
+
+         xmlns:dc="http://purl.org/dc/elements/1.1/"> 
+
+<rdf:Description 
+
+    rdf:about="pnc1154.html" 
+
+    trackback:ping="http://www.maly.cz/tb.php/1154" 
+
+    dc:title="O šifrování, díl první" 
+
+    dc:identifier="pnc1154.html" 
+
+    dc:subject="Zajímavosti" 
+
+    dc:description="Začínám trochou teorie, tak to bude o něco delší. Ale netřeba se bát, nebude to nijak náročné! Povíme si o tom, jak funguje takové šifrování..." 
+
+    dc:creator="Arthur" 
+
+    dc:date="2004-10-22T10:05:53+01:00" /> 
+
+</rdf:RDF> 
+
+-->    
+
+
+
+
+
+
+</div><!--telo-->
+
+
+
+
+
+
+
+<div id="navigace">
+
+      <div class="linky">
+
+      <a name="q_navigace"></a>
+
+      <div class="links-title">Navigace</DIV>
+
+      <p>
+
+      <a href="index.php">.: Úvodní stránka</a><br>
+
+<a href="index.php?text">.: Text</a><br>
+
+<a href="index.php?rss">.: RSS/XML</a> - <a href="index.php?rdf">RDF</a><br>
+
+<a href="index.php?setshort">.:&nbsp;Přepnout zobrazení</a><br>
+
+<a href="index.php?design">.:&nbsp;Nový design</a><br>
+
+<a href="index.php?stats">.: Statistiky</a><br><br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+
+<div class="linky">
+<div class="links-title">      
+AdSense</div>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-3772893178572611";
+google_ad_width = 120;
+google_ad_height = 600;
+google_ad_format = "120x600_as";
+google_ad_type = "text_image";
+//2007-06-08: PNB
+google_ad_channel = "5067511639";
+//-->
+</script>
+<!--script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script-->
+
+</div>
+
+<div class="linky">
+
+<a name="q_odkazy"></a>
+
+<div class="links-title">      
+
+Odkazy</div>
+
+<br>
+
+<a href="http://stanicezoo.sweb.cz/">ing. Cheval</a><br>
+
+
+
+<a href="http://www.pixy.cz/pixylophone">Pixylophone</a><br>
+
+
+
+<a href="http://lena.bloguje.cz">Lena</a><br>
+
+
+
+<a href="http://www.egicz.cz/denik/denik.php">Egi</a><br>
+
+
+
+<a href="http://scalex.bloguje.cz/index.php">Propečený Scalex</a><br>
+
+
+
+<a href="http://ostravak.bloguje.cz/">Ostravak bloguje</a><br>
+
+
+
+<a href="http://letinka.bloguje.cz">Letinka</a><br>
+
+
+
+<a href="http://www.dgx.cz/trine">DGX</a><br>
+
+
+
+<a href="http://dobrman.bloguje.cz/">Dobrman Mates</a><br>
+
+
+
+<!--a href="http://roj.bloguje.cz/">Roj</a><br-->
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<a name="q_kategorie"></a>
+
+<div class="links-title">      
+
+Kategorie</div>
+
+<br>
+
+<a href="index.php?th=1">Ze života</a><br>
+
+
+
+<a href="index.php?th=2">Počítače</a><br>
+
+
+
+<a href="index.php?th=3">Internet</a><br>
+
+
+
+<a href="index.php?th=4">Programování</a><br>
+
+
+
+<a href="index.php?th=5">Knižní koutek</a><br>
+
+
+
+<a href="index.php?th=6">Čeština</a><br>
+
+
+
+<a href="index.php?th=7">Reklama</a><br>
+
+
+
+<a href="index.php?th=8">Zajímavosti</a><br>
+
+
+
+<a href="index.php?th=9">Šlendrián</a><br>
+
+
+
+<a href="index.php?th=10">Filmy</a><br>
+
+
+
+<a href="index.php?th=11">Dobrou chuť</a><br>
+
+
+
+<a href="index.php?th=12">Co nás čeká</a><br>
+
+
+
+<a href="index.php?th=13">Hudba</a><br>
+
+
+
+<a href="index.php?th=14">Zamyšlení</a><br>
+
+
+
+<a href="index.php?th=15">Politika</a><br>
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+
+
+<div class="linky">
+
+<a name="q_hledani"></a>
+
+<div class="links-title">      
+
+Vyhledávání</div>
+
+<br>
+
+
+
+<center>
+
+<form method="post" action="index.php"><input type="text" name="co" size="13"><br><inputtype="submit"name="find" value="V článcích..." class="but"></form>
+
+</center>
+
+
+
+</td></tr></table>
+
+
+
+
+
+
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>      
+
+
+
+<div class="linky">
+
+<a name="q_archivy"></a>
+
+<div class="links-title">      
+
+Archivy</div><br><a href="index.php?archive=200510" class="links">říjen 2005</a><br><a href="index.php?archive=200509" class="links">září 2005</a><br><a href="index.php?archive=200508" class="links">srpen 2005</a><br><a href="index.php?archive=200507" class="links">červenec 2005</a><br><a href="index.php?archive=200506" class="links">červen 2005</a><br><a href="index.php?archive=200505" class="links">květen 2005</a><br><a href="index.php?archive=200504" class="links">duben 2005</a><br><a href="index.php?archive=200503" class="links">březen 2005</a><br><a href="index.php?archive=200502" class="links">únor 2005</a><br><a href="index.php?archive=200501" class="links">leden 2005</a><br><a href="index.php?archive=200412" class="links">prosinec 2004</a><br><a href="index.php?archive=200411" class="links">listopad 2004</a><br><a href="index.php?archive=200410" class="links">říjen 2004</a><br><a href="index.php?archive=200409" class="links">září 2004</a><br><a href="index.php?archive=200408" class="links">srpen 2004</a><br><a href="index.php?archive=200407" class="links">červenec 2004</a><br><a href="index.php?archive=200406" class="links">červen 2004</a><br><a href="index.php?archive=200405" class="links">květen 2004</a><br><a href="index.php?archive=200404" class="links">duben 2004</a><br><a href="index.php?archive=200403" class="links">březen 2004</a><br><a href="index.php?archive=200402" class="links">únor 2004</a><br><a href="index.php?archive=200401" class="links">leden 2004</a><br><a href="index.php?archive=200312" class="links">prosinec 2003</a><br><a href="index.php?archive=200311" class="links">listopad 2003</a><br><a href="index.php?archive=200310" class="links">říjen 2003</a><br><a href="index.php?archive=200309" class="links">září 2003</a><br><a href="index.php?archive=200308" class="links">srpen 2003</a><br><a href="index.php?archive=200307" class="links">červenec 2003</a><br><a href="index.php?archive=200306" class="links">červen 2003</a><br><a href="index.php?archive=200305" class="links">květen 2003</a><br><a href="index.php?archive=200304" class="links">duben 2003</a><br><a href="index.php?archive=200303" class="links">březen 2003</a><br>
+
+<br>
+
+<center>
+
+<a href="index.php?archive=0">Všechny archivy</A></center>
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<div class="links-title">      
+
+Hrálo mi tu:</div><br>
+
+<center>
+
+<p>Nahoru po schodisti dolu band - Praporcice Hildegarda <i>(Album Prvni )</i></p><p>Kokrment - zavolejmyjmeno</p><p>Kokrment - zavolejmyjmeno</p><p>Depeche Mode - 02 - Walking In My Shoes <i>(The Singles 86>98 (cd 2 of 2))</i></p><p>Jiří Korn - Karel nese asi čaj <i>(Totální hity)</i></p>
+
+</center>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<div class="links-title">      
+
+Počítadla atd.</div><br>
+
+<center>
+
+<!-- extra2 -->
+
+<a href="http://counter.cnw.cz/ucet.cgi?login=blogmalycz" target=_blank><img src="http://counter.cnw.cz/dungeon.cgi?blogmalycz&amp;6&amp;000000&amp;fff1d8&amp;on" alt="[CNW:Counter]" border=0></A><br>
+
+<!-- extra3 -->
+
+<SCRIPT language="JavaScript" type="text/javascript">
+
+<!-- 
+
+document.write("<IMG src=\"http://counter.cnw.cz/trackit.cgi?blogmalycz&t2&" + escape(top.document.referrer) + "\" alt=\"CNW:Tracker\" border=\"0\" width=\"11\" height=\"11\">"); 
+
+// -->
+
+</SCRIPT>      <br>
+
+<!-- extra9 -->
+
+<a href="http://www.neskodny.own.cz/arthurdent.txt">Veřejný PGP klíč - Arthur Dent</a><br>
+
+
+
+      <P><A href="http://www.maly.cz/"><IMG 
+
+      alt="[Powered by Blox]" src="blox.gif" 
+
+      width="88" border="0"></A> </P>
+
+</center>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<a name="q_autori"></a>
+
+<div class="links-title">      
+
+Autoři</div>
+
+<div class="autori">Arthur Dent</div>
+
+ICQ: <img src='http://wwp.icq.com/scripts/online.dll?icq=158504315&amp;img=5' alt="ICQ: 158504315"> 158504315<br>
+
+MAIL: <a href="mailto:blog@maly.cz">blog at maly.cz</a>
+
+<div class="autori">White Dog</div>
+
+ICQ: <img src='http://wwp.icq.com/scripts/online.dll?icq=155168543&amp;img=5' alt="ICQ: 155168543"> 155168543<br>
+
+MAIL: <a href="mailto:White_dog@seznam.cz">White_dog at seznam.cz</a>
+
+<br><br><center><b>V žádném případě si nepřejeme na tyto adresy dostávat reklamní maily, tak to prosím respektujte!</b></center>
+
+<br><br><center><a href="http://neskodny.own.cz/netiketa.html"><img src="netiketa_velka.gif" border="0" alt="netiketa"></a></center>
+
+
+
+<div class="links-title"><a href="#topofpage" class="links">Nahoru</a></div>
+
+</div>
+
+
+
+</div> <!--navigace-->
+
+
+
+
+
+<hr style="clear:both;margin-top:0;visibility:hidden;">
+
+</div>
+
+
+
+
+
+</div>
+
+</body></html>
+
+
+
+

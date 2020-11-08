@@ -1,0 +1,513 @@
+<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="ICBM" content="49.043611, 14.373056"><meta name="DC.title" content="Prevazne neskodny blog"><title>Převážně neškodný...</title>
+    <meta charset=utf-8>
+
+<link rel="shortcut icon" href="http://neskodny.own.cz/favicon.ico" type="image/x-icon">
+
+<link rel="stylesheet" href="pnb.css" type="text/css" title="Styl" media="screen">
+
+<link rel='alternate' type='application/rss+xml' title='RSS 1.0' href='http://neskodny.own.cz/index.php?rss'>
+
+<link rel='alternate' type='application/rss+xml' title='RDF' href='http://neskodny.own.cz/index.php?rdf'>
+
+
+
+
+
+</head>
+
+<body id="kontejner">
+
+
+
+
+<div id="ramec">
+
+<a name="topofpage"></a>
+
+
+<div id="titulek">
+
+<div id="blogtitle">
+
+<a href="index.php" class="nounder">Převážně neškodný...</a>
+
+
+
+
+</div>
+
+
+
+
+
+    <div id="shortmenu">
+
+    .: Rychlé menu:
+
+    <a href="#q_navigace" class="submenu">navigace</a> .:.
+
+    <a href="#q_odkazy" class="submenu">odkazy</a> .:.
+
+    <a href="#q_kategorie" class="submenu">kategorie</a> .:.
+
+    <a href="#q_hledani" class="submenu">vyhledávání</a> .:.
+
+    <a href="#q_archivy" class="submenu">archivy</a> .:.
+
+    <a href="#q_autori" class="submenu">autoři</a>
+
+    :.&nbsp;&nbsp;
+
+    </div>
+
+
+
+</div>
+
+
+
+<div id="container">    
+
+
+
+
+
+<div id="telo">
+
+<P><DIV class=date>12.01.2005</DIV>
+
+
+
+
+
+
+
+<DIV class=posts><p>
+
+<a name="1266"></a>
+
+<span class=byline>
+
+<br><font size="+1"><b><i>Redmondské špecifiká - aktualizace<br><small>V rubrice <a href="index.php?th=4">Programování</a></small></i></b></font></span><br><br>
+
+<div class="prispevek">
+
+Jak mi IE připravil další z řady překvapení, aneb <i>Neříkej HOP...</i><br><br>Až do včerejška jsem si myslel, že záludnosti IE spočívají jen v prapodivných praktikách při interpretování kódu a CSS. Kdepak! Dokud vláda zasedá a Explorer běží, tak si nikdo nemůže být ničím jistý...<br><br>Už <a href="pnc1242.html">jsem se zmiňoval</a> o tom, že píšu malý webserver pro procesor 8051. Tenhle procesor běží na frekvenci nějakých 20 MHz a má 32kB paměti, takže je i laikovi jasné, že s tím neudělám žádné zázraky. Jenže ono je potřeba udělat alespoň malé kouzlíčko...<br><br>Ten webserver totiž má sloužit i ke stahování velkých bloků dat, tak okolo 20 MB. A to je kámen úrazu... Aby byla doba stahování alespoň trochu snesitelná, tak je potřeba, aby server posílal data rychlostí kolem 100kB/s. Jenže v takovém případě není, řečeno slovy mého bývalého šéfa, čas na hrdinství a vše je potřeba podřídit jedinému cíli: Rychlosti...<br><br>Podřídil jsem tedy vše rychlosti, optimalizoval jsem až téměř nečestným způsobem, vyhodil jsem vše, co nebylo stoprocentně nutné ke stahování, a ono to fungovalo. Rychlost byla až 120kB/s, jenže bohužel&nbsp;&mdash; v Mozille. I v Opeře, i ve Firefoxu, i v Konqueroru a v dalších. Jen ve <span class="help" title="Tak říká kolega Exploreru">Zkoumákovi</span> ani Ň. Což jsem, protože ho nepoužívám, zjistil až včera.<br><br>Spustil jsem tedy Ethereal, ponořil se do paketů a po několika hodinách zkoumání jsem objevil následující:<br><br>Mozilla (a další) stahuje soubory následujícím způsobem: Pošle HTTP požadavek HEAD a obdrží od serveru velikost, název a typ souboru. Dá uživateli na výběr co chce s dotyčným souborem udělat a až poté, co se uživatel vyjádří, pošle požadavek GET a stáhne soubor. Stahování vypadá pak asi takto:<br><br><i>OK, pošli blok dat od adresy 1000</i>&nbsp;&mdash; server pošle blok dat velikosti 1000 bajtů od adresy 1000<br><i>OK, pošli blok dat od adresy 2000</i>&nbsp;&mdash; server pošle blok dat od adresy 2000<br><i>OK, pošli blok dat od adresy 3000</i>&nbsp;&mdash; server pošle blok dat od adresy 3000<br><i>OK, pošli blok dat od adresy 4000</i>&nbsp;&mdash; server pošle blok dat od adresy 4000<br><i>OK, pošli blok dat od adresy 5000</i>&nbsp;&mdash; server pošle blok dat od adresy 5000<br>atd...<br><br>Idyla... Takhle mi to fungovalo naprosto bez problémů, takže takto jsem optimalizoval. A to jsem neměl!<br><br>Pak se do věci vložil IE. Jeho stahování vypadá takto: Pošle HTTP požadavek GET a server na to zareaguje tím, že pošle hlavičku a za ní hned data. IE dá uživateli na výběr co se souborem, ale mezitím mu server cpe další a další data a PC si je někam ukládá. Když se uživatel vyjádří, tak si IE uloží to co je zatím stažené a stahuje dál. (Je to vidět při stahování malých souborů&nbsp;&mdash; než člověk klikne na Uložit, tak už je soubor stažený.)<br><br>Jenže kámen úrazu je v tom, že ono místo, kam se ukládají ta data, je docela malé. Skoro by se dalo říct VELMI malé. Takže komunikace vypadala zhruba takto:<br><br><i>OK, pošli blok dat od adresy 21000</i>&nbsp;&mdash; server pošle blok dat velikosti 1000 bajtů od adresy 21000<br><i>OK, pošli blok dat od adresy 22000</i>&nbsp;&mdash; server pošle blok dat od adresy 22000<br><i>OK, pošli blok dat od adresy 23000</i>&nbsp;&mdash; server pošle blok dat od adresy 23000<br><i>OK, pošli blok dat od adresy 24000</i>&nbsp;&mdash; server pošle blok dat od adresy 24000<br><i>OK, pošli blok dat od adresy 25000</i>&nbsp;&mdash; server pošle blok dat od adresy 25000<br>v tuhle chvíli už je ale plné úložiště, a tak přichází požadavek:<br><br><i>OK, ale mně už se to tam nevejde, takže mi prosímtě pošli ještě jednou blok dat od adresy 25312</i><br><br>No a protože, jak jsem říkal, nebyl čas na hrdinství, tak server na ono OK reaguje tím, že posílá dál bloky dat od adres 26000, 27000, 28000... a PC odpovídá <i>OK, data dorazila, ale tyhle jsem nechtěl, pošli blok dat od adresy 25312</i> furt dokola, jak úřednice na berňáku.<br><br>Takže jsem dodělal kontrolu toho, jestli OK od Zkoumáka znamená &bdquo;pošli další data&rdquo; nebo &bdquo;pošli data, co jsem už jednou dostal, protože je nemám kam dávat&rdquo;. A v tu chvíli padla rychlost na 11 kB/s. A pokud má být učiněno protokolu zadost, tak už to lepší nebude...<br><br>Škoda. Taková pěkná optimalizace&nbsp;&mdash; a je v pdachu! <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>Ještě bych to mohl zaonačit tak, že bych tuhle kontrolu dělal jen v případě <i>User-Agent=Explorer</i>. Tak by uživatel s Mozillou mohl stahovat sice ne-zcela-úplným protokolem, ale &bdquo;na plnej kotel&rdquo;, no a uživatel s IE by holt měl <i>protokolární</i> smůlu... Jenže to by mi asi zákazník hodil na hlavu.<br><br>Dost možná je to záležitost nižší vrstvy systému než je ta v IE, bůh suď, faktem je, že se to s jiným prohlížečem nestává. Možná jde o buffer TCP protokolu, který je zaplněn proto, že si IE řekne o data a pak je nepřebírá, kdo ví...<br><br>Přitom by bývalo stačilo, kdyby IE posilal řádně HEAD a až po něm GET, tedy choval se podle hesla <i>nechtci data, dokud nevím co s nima!</i> Pak by nemusel posílat své ZeroWindow pakety, vše by fungovalo k plné spokojenosti a svět by byl krásný, vlk by spal vedle beránka a vzduch by byl naplněn slovem MÍR! Ale to by byl svět až příliš jednoduchý.<br><br>Nezbývá než parafrázovat latinské <i>lex dura, sed lex</i>&nbsp;&mdash; <b>Prohlížeč blbý, leč majoritní</b>! <br><br>Smutné PS: Už se těším na komentáře, ve kterých mi budou nejrůznější odborníci a &bdquo;odborníci&rdquo; dokazovat, že blbej jsem já, protože můj server neimplementuje všechny možné požadavky TCP protokolu a já nefunkčnost svých &bdquo;nečistých optimalizací&rdquo; házím na IE. Pro všechny, co už už chtějí něco takového psát, tu mám stručné vysvětlení celého článku (už mě unavuje vždycky v komentářích vysvětlovat, že nadsázka je nadsázka, povzdech je povzdech, co je vážně, co ne a jak jsem to celé myslel, tak to udělám teď): <i>Ano, moje optimalizace na rychlost funguje všude s výjimkou IE, tak jsem ji odstranil, jede se dál rychlostí desetinovou a budu rád, když nějak zdvihnu rychlost na pětinu původní. Vím že IE v podstatě nedělá nic nestandardního a že posílá naprosto &bdquo;běžný&rdquo; požadavek, ale zarazilo mě to, protože žádný jiný prohlížeč, který jsem zkoušel, se takhle nechoval. A celý článek je míněn jako povzdech vývojáře nad tím, že aplikace je třeba testovat v IE nejen na úrovni zobrazování HTML a CSS, ale i na úrovni síťových paketů a požadavků, což jsem třeba já netušil, a zároveň by mohl sloužit jako ono &bdquo;prošlapání slepé uličky&rdquo;.</i><br><br>A pro naprosté pitomce: Jo, můžu si za to sám, titulek, podnadpis a vůbec celý článek je tendenční a strefovat se do MS je tak laciné!<img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br><b>Aktualizace</b> Po dalších několika hodinách jsem objevil trik, kterým se IE nažral a rychlost je okolo 90kB/s! Juch! <br><br>Ale tenhle článek už mazat nebudu, nechám ho tu jako memento slepých cestiček... A pro Mormegila: Rychlost klesla při &bdquo;předpisové&rdquo; implementaci. Stačilo objevit ten drobný trik. Sice jsem tím úspěšně zaplácnul další cca 2kB paměti, ale účelu bylo dosaženo! 
+
+</div>
+
+<br><br>
+
+Zadal <a href="index.php?aut=1">Arthur Dent</a>, 12.01.2005 9:32:30,
+
+<a href="pnc1266.html#comments">34 komentářů...</a>,  <br>TrackBack URL tohoto příspěvku je <i>http://www.maly.cz/tb.php/1266</i>
+
+<br>
+
+<hr>
+
+
+
+</div>
+
+<div class="cmts"><a name="comments"></a><a href="pnc1266.html">Zpět na článek</a><br><br>	<a href="javascript:Q='';void(btw=window.open('http://www.bloguje.cz/links/sub.php?u='+escape(window.location.href)+'&n=PNBlog - '+encodeURIComponent('Redmondské špecifiká - aktualizace'),'cmtForm','scrollbars=no,width=150,height=150,left=75,top=25,status=yes'));btw.focus();">
+
+	<img src="http://www.bloguje.cz/links/ico.gif" title="HotLinks" alt="HotLinks" ></a><br><a href="pnc1266.html&amp;tc=2#comments"><i>Zobrazit komentáře v chronologickém pořadí</i></a><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14743"></a><b>poznamka</b>&nbsp;-&nbsp;<a href="mailto:">Calvera</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 09:51:15)</small><br><br>cau, jen te chci upozornit, abys to otestoval i pro pristupy pres proxy... jeden nikdy nevi...<br></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14744"></a><b>Re: poznamka</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 09:52:44)</small><br><br>No, naštěstí tohle za proxy (snad) nikdy nebude, bude se to připojovat kříženým kabelem rovnou do pičítače, ale pro sichr to zkusím, díky!</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14745"></a><b>Re: poznamka</b>&nbsp;-&nbsp;<a href="mailto:">rony</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 10:44:34)</small><br><br>implementacia FTP miesto http nevyhovovala danemu zameru?</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14746"></a><b>Re: poznamka</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 11:12:24)</small><br><br>Po zvážení režie HTTP vs FTP v téhle dané aplikaci, kdy jsou data defakto &quot;online&quot; generována, a po zvážení reálných možností procesoru se FTP ukázalo jako nevyhovující...</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14747"></a><b>Re: poznamka</b>&nbsp;-&nbsp;<a href="mailto:">Calvera</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 12:38:27)</small><br><br>kdyz bude nekdo mit nejaky lokalni proxy, tak bohuzel bude <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14748"></a><b>Re: poznamka</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 12:45:07)</small><br><br>Vzhledem k &quot;cílové skupině&quot; nepředpokládám, že by se mezi nimi našel nějaký významný počet exemplářů s localproxy... Jenže čert nikdy nespí, že? <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>Díky, voprubuju to... Snad se bude proxy chovat rozumněji.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14749"></a><b>Ty to vážně....</b>&nbsp;-&nbsp;<a href="mailto:">allora</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 14:11:15)</small><br><br>...bereš zgruntu <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br>Napíšeš příspěvek, přidáš všeobecné údaje pro laiky, detailní pro odborníky, preventivní opatření, nadsázku a pro sichr rovnou i odpověď rýpavým komentátorům <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br>Tomu říkám důkladnost <img src="support/icon_wink.gif" alt="{wink}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14752"></a><b>Re: Ty to vážně....</b>&nbsp;-&nbsp;<a href="mailto:">dgx</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 16:48:56)</small><br><br>ano, Arthur je expert na moderování diskuzí ještě před jejich propuknutím. Viz <a href="#">[www.maly.cz/pnc950.html]</a> nebo <a href="#">[www.maly.cz/pnc1201.html]</a>, tématem článku se to stalo tady <a href="#">[www.maly.cz/pnc759.html]</a>.<br><br>Naopak velkou míru svobody slova projevil svého času White Dog <a href="#">[www.maly.cz/pnc108.html]</a><br><br><img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14754"></a><b>Re: Ty to vážně....</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 17:01:43)</small><br><br>To víš... Ono to po čase unaví, a tímhle aspoň třetinu &quot;nepochopů&quot; rovnou odradím... <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>A to se vyplatí - i kdyby to mělo být za cenu toho, že si řeknou, jakej jsem kretén. <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14753"></a><b></b>&nbsp;-&nbsp;<a href="mailto:">Mormegil</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 16:50:25)</small><br><br>No, vzhledem k posledním dvěma odstavcům se tady nebudu moc obšírně vyjadřovat na dané téma -- jako by se stalo (čti: tohle nemá s blbostí IE nic společného).<br><br>Takže čistě z odbornějšího hlediska: a neprojevila by se tahle chyba v implementaci TCP i v případě, kdy by docházelo k výpadkům paketů (což je důvod, proč vůbec TCP existuje)?<br><br>(A zcela skeptický dotaz na závěr: _opravdu_ klesla jenom kvůli tomuhle rychlost desetinásobně? Fíha, to bych do TCP nikdy neřekl...)</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14755"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 17:05:17)</small><br><br>K výpadkům paketů na &quot;síti&quot; tvořené jedním PC, tímhle zařízením a kříženým kabelem dochází opravdu minimálně.<br><br>Ano, opravdu klesla kvůli tomuhle rychlost na desetinu... Mám pro to jednoduchou metodu měření: Přeložím bez kontroly, spustím, změřím. Přeložím s kontrolou, spustím, změřím.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14809"></a><b>Cross</b>&nbsp;-&nbsp;<a href="mailto:">px30</a><br><small>(14.01.2005 09:20:06)</small><br><br>To by ses divil, kolik lidí si neumí pořádně nacvaknout síťový kabel.<br><br>Jinak jeste kratký dodatek: *Nikdy* neříkej, že to bude *vždycky* přímo do peecee přes krosík. Někdo bude potřebovat druhou síťovku - sebere tomu, kdo to bude používat picmicku a už je to v ve floorboxu přímo na patrovém switchi. Potom přijde nějakej zmrd a řekne, že toto zařízení musí být odděleno od kancelářské sítě korporátním  firewallem, kde je QoS a pak bude ten tvůj kunčoft teprve litovat, že si nepořídil fajnověší model.<br><br>Já bych to viděl tak, že to bude vždycky alespoň na hubu <img src="support/icon_smile.gif" alt="{smile}" align="middle"> a pak je to o hubu <img src="support/icon_wink.gif" alt="{wink}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14810"></a><b>Re: Cross</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 09:29:32)</small><br><br>No vzhledem k tomu, že v prostředí, kde to bude, žádné huby nejsou, tak si tím jsem docela jist...<br><br>Je to průmyslové zařízení namontované na autonomním stroji, kde zaznamenává určitá data o jeho činnosti (nic neřídí!), a bude-li problém, tak přijde maník s NB a s kabelem, píchne se do té kisny a stáhne si data, aby nad nimi mohl špekulovat, proč se stroj vymkl z kloubů, šílel a pozabíjel 18 lidí... <img src="support/icon_smile.gif" alt="{smile}" align="middle"> Řekněme - něco jako &quot;modul pro vyčítání dat z černé skříňky v letadle&quot; (ale není to tohleto). Chtěl bych vidět toho smělce, který zapojí černou skříňku na kancelářskou síť. <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14819"></a><b>Re: Cross</b>&nbsp;-&nbsp;<a href="mailto:">px30</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 15:02:48)</small><br><br><a href="#">[research.sun.com/spotlight/2004-12-20_vgupta.html]</a><br>- nehodilo by se ti tohle? <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>Smelcu, o kterych pises jsem jiz bohuzel videl desitky. Exchange naprimo do Internetu, vyvojovy server jako firewall pro stredni firmu a dalsi...<br></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14820"></a><b>Re: Cross</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 15:07:45)</small><br><br>To by museli mít smělci obzvlášť dlouhý kabel (nebo mobilní připojení na tom jezdícím stroji)... <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14821"></a><b>Re: Cross</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 15:17:47)</small><br><br>Ne, vážně:<br><br>Jedná se o zařízení, které není určeno k trvalému provozu v síti a takto je i specifikováno. Pokud to někdo zapojí do korporátní sítě (o čemž pochybuji) a bude si stěžovat že tohle a támhleto, tak má smůlu, protože to bude používat v rozporu se specifikací. Už si rozumíme? Zkrátka - zařízení je určeno pro Škodu a to, že nefunguje v Renaultu není můj problém.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14756"></a><b></b>&nbsp;-&nbsp;<a href="mailto:">thingwath</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 18:14:45)</small><br><br>Hm, měl jsem zato, že alespoň tak zásadní a základní věc jako je HTTP používá IE nějak normálně. Každopádně mám takový *dojem*, že tohle lze v Mozille nastavit taky, v rámci zrychlení (stahuje se už při výběru co se souborem). Ale je to jenom dojem a jak je to přímo řešené, to nevím.<br><br>Ale, stěžovat si na chování IE, když ani ty neimplementuješ ty protokoly plnohodnotně, to je tendenční a laciné <img src="support/icon_wink.gif" alt="{wink}" align="middle"> (ono, optimalizujeme-li ořezáváním protokolu, tak se do bodu 'neplnohodnotná funkcionalita' jednou dostaneme, IE neIE) To si nevybereš. Optimalizace nebo kompatibilita.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14758"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 18:35:29)</small><br><br>Mělo to vyznít spíš jako &quot;IE má zase něco extra, zatímco ostatní prohlížeče se nejdřív zeptají a pak stahují, tak IE rovnou stahuje s tím, že to možná pak zahodí.&quot;<br><br>Mimochodem, to je blbá zpráva pro notorické sledovače objemu přenesených dat - dřív než se rozhodnou, jestli soubor stáhnou, tak už mají 20 kilo v chalupě <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14759"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 18:39:47)</small><br><br>Ale už je to každopádně fuk, dorazilo osvícení, s ním myšlénka a hned za myšlénkou trik <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14760"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">thingwath</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 18:42:12)</small><br><br>Nejsem proti dozvědět se o něm více. Není-li to samozřejmě tajné <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14761"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 19:07:41)</small><br><br>Mno... no... obávám se, že to asi takhle zveřejnit nemůžu. Je to přeci jen průmyslový výrobek. Proto se taky snažím být tak nekonkrétní, jak jen to jde... <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14757"></a><b></b>&nbsp;-&nbsp;<a href="mailto:">thingwath</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(12.01.2005 18:17:45)</small><br><br>Předpokládám, že není možné přenášet HTTP přes UDP, je tomu tak, že? (ať už z důvodů nejvyšších, tedy přímo dle svatého RFC2616 nebo prostě pro nepodporu této alternativy jakýmkoliv z prohlížečů)<br><br>Ale asi by to moc nepomohlo.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14771"></a><b>Re:</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 01:07:20)</small><br><br>Predpokladas spravne.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14770"></a><b>To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 01:03:20)</small><br><br>Jestli tomu rozumim spravne, coz vubec nemusi byt pravda, problem se projevi na urovni TCP tj. ty pozadavky &quot;posli blok dat od adresy...&quot; jsou TCP pakety. V tom pripade sis v PS odpovedel sam a v nekterych konferencich by se te akorat zeptali na jmeno produktu, aby se mu mohli vyhnout <img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br>Dobra, uznavam, ze 32 kB pameti je na uplnou implementaci TCP a HTTP serveru dost malo (ve 20 MHz bych nevidel problem). Je ovsem otazka, jestli neni chyba v pocatecni analyze a jestli je TCP spravna volba. Pokud by se to pouzivalo jen v lokalni siti nebo by se to dokonce pripojilo primo k PC, bylo by namiste pouzit neco jednodussiho a pokud je nutne HTTP, simulovat ho na PC. Psal jsem takovy protokol pro zarizeni, pripojene pres USB nebo seriovou linku a uplna implementace se vesla do nekolika malo kB. Pokud se ovsem data mohou cestou ztratit, je TCP dobra volba, protoze je to spolehlivy a samoopravny protokol. S nasledky cehoz ses prave setkal. Jestli a jak za to muze IE se da tezko rict, bylo by treba odchytat volani na urovni Winsocku. Kazdopadne, ze to s jinymi browsery chodi, znamena pouze ze v idealnich podminkach se chovaji optimalne, ale vubec nic to nerika o podminkach suboptimalnich (user si pustil defragmentaci, disk mu bezi v PIO modu, pomaly procesor a browser obcas neco nestihne). Normalne se testuje nejhorsi mozny pripad a pisou se specialni aplikace, ktere ho simuluji. Vidis, jak ti MS setri praci <img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br>Optimalizace je samozrejme dobra vec a vubec se nemusi prat s pozadavkem na uplnou implementaci protokolu. Proste ocekavam idealni prostredi a podle toho se chovam, ale zaroven jsem pripraven i na problemy, jejich zpracovani muze byt ovsem mnohem pomalejsi. Takze &quot;normalni&quot; aplikace pobezi na 100% a IE na 10%. Predpokladam, zes neco takoveho uz udelal.<br><br>No a co se tyce nutnosti chytani paketu,  cemu se divis? Je naprosto bezne, ze kdyz pises nejaky protokol, je nutne analyzovat data o jednu nebo vice vrstev niz.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14772"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 07:26:59)</small><br><br>1. Produkt bude nasazen tak jak píšu, tj. kroucený kabel a notebook. Proč nebyla navržena komunikace např. po USB, to netuším, já analýzu nedělal. Asi proto, že HTTP protokol je dostatečně IN a počítač s prohlížečem má každej. Kdyby udělali přenos &quot;po kabelu&quot;, tak budou muset psát klientský SW pro Windows a pro DOS a pro Linux... Asi. Já tu analýzu nedělal, já přišel až k &quot;naprogramujte HTTP server...&quot; <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>2. V podstatě je to tak, nejspíš jde o problém na úrovni TCP - který se ovšem u jiných prohlížečů neprojevuje, u IE vždycky. Ten problém jsem popsal, ukázal jsem na jeho možnou příčinu (IE neposílá HEAD, posílá rovnou GET) a tím je prošlapána slepá cestička. <img src="support/icon_smile.gif" alt="{smile}" align="middle"> O tom, jestli jsem špatný, že neimplementuju plný TCP protokol, není třeba diskutovat - je to totiž zcela mimo, protože problém není postaven jako &quot;plný TCP vs ořezaný&quot;, ale &quot;jak moc ořezaný TCP ještě jde&quot;.<br><br>3. Tomu zařízení se nevyhnou ani kdyby moc a moc chtěli <img src="support/icon_biggrin.gif" alt="{big grin}" align="middle"><br><br>4. Ber to tak, že je to příspěvek do diskuse na téma &quot;co lze v takovém případě vyhodit z implementace TCP a co už ne&quot;.<br><br>5. Ale jo, očekávání problémů a odolnost proti chybám je hezká věc. Smutné je to ve chvíli, kdy máš plných 90% paměti a každá kontrola navíc tě stojí procento až dvě z prostoru a pět procent z času. To už pak sakra zvažuješ...<br><br>6. Nikoli, normální aplikace běží stejně rychle jako IE, kdyby to bylo tak jak píšeš, tak nejásám.<br><br>7. Nedivil jsem se nutnosti chytání paketů, Ethereal mi tu běží permanentně. Psal jsem, že se IE chová &quot;jinak&quot; nejen ve věcech zobrazovacích, ale i ve věcech &quot;síťových&quot; a TO že mě zarazilo. Přeci jen - častěji se setkávám s rozdíly ve vyšších vrstvách <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>8. Možná jsem měl zvolit postup jako někteří webdesignéři - nechat to tak a nalepit na to cedulku &quot;Optimalizováno pro Mozillu&quot; <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14773"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 08:07:08)</small><br><br>ad 1: No jo, ale HTTP je v takovych podminkach overkill. Nereknu, kdyby bylo dost pameti. Stejne to bez dalsiho softwaru bude chodit jen ve Windows, v DOSu vubec a o Linuxu pochybuju, i kdyz do nej nevidim. V takovych pripadech se snazim zadani zmenit, ale chapu, ze ne vzdy je to mozne.<br><br>ad 2. No jo, jenze HTTP to umoznuje a je jen na aplikaci, jak ho pouzije. Predpokladam, ze se tohle IE chovani da nekde vypnout a mam takovy pocit, ze v Mozille zase zapnout. Zkus taky nejake download managery (GetRight?), spousta lidi je ma nainstalovane a ani o tom nevi. Nektere umi prerusit a znovu zahajit stahovani. Na otestovani by mohl stacit command line wget. O lokalnich proxy uz sla rec (treba WebWasher). <br><br>ad 3: Doufam, ze mas ve smlouve zvlastni sazbu, nejlepe hodinovou, za support <img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br>ad 4: Obavam se, ze spravna odpoved je NIC <img src="support/icon_wink.gif" alt="{wink}" align="middle"> Jiste, muzes se vykaslat na spoustu okrajovych podminek a nepravdepodobnych pripadu, ale s rizikem, ze to obcas proste prestane fungovat.<br><br>ad 5: Jasne, ta pamet je prusvih; se setrenim kazdeho bytu mam sve zkusenosti. S rychlosti bych to tak cerne nevidel; delal jsem na zarizeni s efektivni rychlosti o rad nizsi a takove problemy nebyly. Dost zalezi na tom, jak je kod napsany a jestli mas neco jako profiler, na zjisteni, kde to vazne. Obcas se tak prijde na velmi prekvapive veci, zvlaste pokud to nepises primo v assembleru.<br><br>ad 8: Presne tak a chtit za optimalizaci priplatek <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14774"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 08:23:32)</small><br><br>ad 1) Nojo, no. Změnit to už asi nelze.<br><br>ad 2) Však ano, však to jsem taky psal.<br><br>ad 3) Support si pak budou dělat sami, zdrojáky dostanou... <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>ad 4) Obávám se, že NIC je správná odpověď, ale nepoužitelná, zejména ve chvíli, kdy zadavatel na prostý dotaz &quot;A nešlo by ten procesor nahradit jiným modelem z téže řady a od stejného výrobce, např. XXXXX, který má dvojnásobnou ROM i RAM?&quot; odpovídá: &quot;Ne, to by nešlo!&quot; a když ve chvíli, kdy je napsaný server s minimálními omezeními (a zbývají 2kB), řekne: &quot;Fajn! Ale ještě bychom chtěli, aby to dělalo i upload. Jo a ta komunikace, co jsme navrhli, nefunguje, takže část těch výpočtů budete muset dělat vy...&quot; Pak opravdu musíš vyhazovat co se dá, chca nechca...<br><br>ad 5) K paměti viz výše, profiler není, jsem rád, že je alespoň debugger. Problém byl při &quot;doslovné&quot; implementaci, teď je implementace &quot;ne-doslovná-ale-podobné-věci-ošetřující&quot;.<br><br>ad 8) Kdyby příplatek! Měl bych si to napsat i do nabídky: &quot;Používáme osvědčené technologie.&quot; (Tohle měla firma, kde jsem kdysi krátce dělal, napsáno v nabídkách a znamenalo to &quot;Jedeme jen v IE&quot;.) <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14796"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 22:16:57)</small><br><br>ad 3: A dobre jim tak <img src="support/icon_wink.gif" alt="{wink}" align="middle"> Jen nezapomen do kodu psat komentare, ze sice vis, ze je to blbe, ale X.Y. na tom trval a vic pameti nebylo. Treba pak pujdou zlyncovat X.Y.<br><br>ad 4: Jasne, to je pak tezke. Jak to vlastne funguje -- taha se kod do RAM z nejake EEPROM nebo flashky nebo bezi v ROM? V RAM by se daly udelat overlaye tj. natahovat kod, ktery je zrovna potreba. A muze byt ulozen i komprimovany (i to jsme delali...). Nicmene, pokud by to slo a navrhnul bys to, stejne si hned vymysli, jak veskere usetrene misto vyuzit <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>ad 8: Je treba byt in. Godzilla je out, in je FireFox. Pouzivanim tohoto zarizeni bojujete proti monopolu! Integraci nejmodernejsich technologii prispivate na adopci cervene pandy!<br><br>(pro pripadne fanatiky: pouzivam Netscape od verze 1.1, pak Mozillu a ted FF. IE, s vyjimkou kratkeho obdobi kdy NN uz a Mozilla jeste poradne nefungovala, pouze v nouzi nejvyssi, kdy opravdu musim na stranky, ktere nejake pako &quot;optimalizovalo&quot;)</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14797"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 22:25:55)</small><br><br>ad 4 - nic se nikam netahá. Je to jednočip s harvardskou architekturou, tzn. data zvlášť a kód zvlášť. Mám 32kB FLASH na kód a něco přes 2kB RAM na data. Takže overlaye nejsou a s 2kB RAM toho moc nezkompresíš. Sice na ZX81 bys s tím byl king, ale tam by po tobě zase nikdo nechtěl Ethernet <img src="support/icon_smile.gif" alt="{smile}" align="middle"><br><br>A data, která jdou ven, se on-the-fly tahají z periferie.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14800"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 23:10:34)</small><br><br>No jo, tak s tim se opravdu zadne zazraky delat nedaji. Ale muze to byt zabavne <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14803"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(13.01.2005 23:48:49)</small><br><br>Je... Kdyby to bylo tupé a ubíjející, tak to nedělám. Ale tohle je, svým způsobem, něco, čemu se dnes tak moderně říká: &quot;výzva&quot;.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14805"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 01:37:07)</small><br><br>Tak jsem to myslel. Nerika se moderne spis celendz? <img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br>Ze zvedavosti jsem se kouknul, co ten IE vlastne dela a vypada to, ze v zasade mas pravdu a muze za to on. Posle GET hned po odklepnuti a pak bud po nejake dobe nebo urcite velikosti dat je prestane prijimat (nejspis neposle systemu buffer), dokud to user neodklepne. Tipnul bych si spis na tu dobu, okolo 5 sec. No a TCP dela co umi, postupne zkracuje okno az mu nezbude nez ho stahnout na 0, jelikoz dalsi data nema kam dat. Pak to user konecne odklepne a pokracuje se tam, kde se prestalo. Cast dat, ktera se prijala, kdyz nebylo misto, se nejspis zahodi (co   s nima taky) a tak se pokracuje z pulky tve posledni odpovedi a jelikoz data uz nema, musi (TCP) trvat na tom, ze je posles znovu. Stejne jako kdyby se ztratila nekde po ceste, od toho TCP je. To jen na doplneni, je mi jasne, zes uz to nejak vyresil.</div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14806"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">Arthur Dent</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 07:22:50)</small><br><br>Přesně tak to je, jen bych doplnil, že to není pět sekund, ale asi jedna (při mé rychlosti) a je to dáno velikostí bufferu, což je nějakých 20kB. IE si první paket převezme (má tam HTTP hlavičku) a dál nepřijímá, dokud user neřekne co s tím.<br><br>A řešení bylo, jak jinak, prosté. Stačilo si uvědomit, že není třeba posílat to co klient chce, ale to co reálně mohu poslat (čímž odpadla část přepočtů a ušetřil jsem 4 bajty RAM) a taky to, že není třeba testovat každý potvrzovací paket. <img src="support/icon_smile.gif" alt="{smile}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top><br><br><table><tr><td colspan=2><div class=cmt><a name="cid14808"></a><b>Re: To jsou veci</b>&nbsp;-&nbsp;<a href="mailto:">mike</a>&nbsp;<a href="http://" title="">(web)</a><br><small>(14.01.2005 08:54:07)</small><br><br>Ono se to asi lisi podle situace (verze IE, rychlosti site nebo pocasi); u mne se za tech 5 sec natahne 90 - 100 kB, ale nebylo to vzdy stejne. Proto tipuju cas, ale muze byt i oboji.<br><br>Jinak jsem zaslechl, ze po Siti behajici utecene zdrojaky w2k pry obsahuji i kod IE 5.neco. Takze kdyby te to opravdu zajimalo, mohl bys je chytit (samozrejme v zadnem pripade nemohu vedet kde) a zkusit to v tom bordelu najit <img src="support/icon_wink.gif" alt="{wink}" align="middle"><br><br>No vidis, jak se daji kreativne vyuzit vlastnosti TCP <img src="support/icon_wink.gif" alt="{wink}" align="middle"></div></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td valign=top></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table>	<a href="javascript:Q='';void(btw=window.open('http://www.bloguje.cz/links/sub.php?u='+escape(window.location.href)+'&n=PNBlog - '+encodeURIComponent('Redmondské špecifiká - aktualizace'),'cmtForm','scrollbars=no,width=150,height=150,left=75,top=25,status=yes'));btw.focus();">
+
+	<img src="http://www.bloguje.cz/links/ico.gif" title="HotLinks" alt="HotLinks" ></a><br><a href="pnc1266.html">Zpět na článek</a><br><br></div><!-- 
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" 
+
+         xmlns:dc="http://purl.org/dc/elements/1.1/"> 
+
+<rdf:Description 
+
+    rdf:about="pnc1266.html" 
+
+    trackback:ping="http://www.maly.cz/tb.php/1266" 
+
+    dc:title="Redmondské špecifiká - aktualizace" 
+
+    dc:identifier="pnc1266.html" 
+
+    dc:subject="Programování" 
+
+    dc:description="Jak mi IE připravil další z řady překvapení, aneb Neříkej HOP..." 
+
+    dc:creator="Arthur" 
+
+    dc:date="2005-01-12T09:32:30+01:00" /> 
+
+</rdf:RDF> 
+
+-->    
+
+
+
+
+
+
+</div><!--telo-->
+
+
+
+
+
+
+
+<div id="navigace">
+
+      <div class="linky">
+
+      <a name="q_navigace"></a>
+
+      <div class="links-title">Navigace</DIV>
+
+      <p>
+
+      <a href="index.php">.: Úvodní stránka</a><br>
+
+<a href="index.php?text">.: Text</a><br>
+
+<a href="index.php?rss">.: RSS/XML</a> - <a href="index.php?rdf">RDF</a><br>
+
+<a href="index.php?setshort">.:&nbsp;Přepnout zobrazení</a><br>
+
+<a href="index.php?design">.:&nbsp;Nový design</a><br>
+
+<a href="index.php?stats">.: Statistiky</a><br><br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+
+<div class="linky">
+<div class="links-title">      
+AdSense</div>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-3772893178572611";
+google_ad_width = 120;
+google_ad_height = 600;
+google_ad_format = "120x600_as";
+google_ad_type = "text_image";
+//2007-06-08: PNB
+google_ad_channel = "5067511639";
+//-->
+</script>
+<!--script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script-->
+
+</div>
+
+<div class="linky">
+
+<a name="q_odkazy"></a>
+
+<div class="links-title">      
+
+Odkazy</div>
+
+<br>
+
+<a href="http://stanicezoo.sweb.cz/">ing. Cheval</a><br>
+
+
+
+<a href="http://www.pixy.cz/pixylophone">Pixylophone</a><br>
+
+
+
+<a href="http://lena.bloguje.cz">Lena</a><br>
+
+
+
+<a href="http://www.egicz.cz/denik/denik.php">Egi</a><br>
+
+
+
+<a href="http://scalex.bloguje.cz/index.php">Propečený Scalex</a><br>
+
+
+
+<a href="http://ostravak.bloguje.cz/">Ostravak bloguje</a><br>
+
+
+
+<a href="http://letinka.bloguje.cz">Letinka</a><br>
+
+
+
+<a href="http://www.dgx.cz/trine">DGX</a><br>
+
+
+
+<a href="http://dobrman.bloguje.cz/">Dobrman Mates</a><br>
+
+
+
+<!--a href="http://roj.bloguje.cz/">Roj</a><br-->
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<a name="q_kategorie"></a>
+
+<div class="links-title">      
+
+Kategorie</div>
+
+<br>
+
+<a href="index.php?th=1">Ze života</a><br>
+
+
+
+<a href="index.php?th=2">Počítače</a><br>
+
+
+
+<a href="index.php?th=3">Internet</a><br>
+
+
+
+<a href="index.php?th=4">Programování</a><br>
+
+
+
+<a href="index.php?th=5">Knižní koutek</a><br>
+
+
+
+<a href="index.php?th=6">Čeština</a><br>
+
+
+
+<a href="index.php?th=7">Reklama</a><br>
+
+
+
+<a href="index.php?th=8">Zajímavosti</a><br>
+
+
+
+<a href="index.php?th=9">Šlendrián</a><br>
+
+
+
+<a href="index.php?th=10">Filmy</a><br>
+
+
+
+<a href="index.php?th=11">Dobrou chuť</a><br>
+
+
+
+<a href="index.php?th=12">Co nás čeká</a><br>
+
+
+
+<a href="index.php?th=13">Hudba</a><br>
+
+
+
+<a href="index.php?th=14">Zamyšlení</a><br>
+
+
+
+<a href="index.php?th=15">Politika</a><br>
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+
+
+<div class="linky">
+
+<a name="q_hledani"></a>
+
+<div class="links-title">      
+
+Vyhledávání</div>
+
+<br>
+
+
+
+<center>
+
+<form method="post" action="index.php"><input type="text" name="co" size="13"><br><inputtype="submit"name="find" value="V článcích..." class="but"></form>
+
+</center>
+
+
+
+</td></tr></table>
+
+
+
+
+
+
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>      
+
+
+
+<div class="linky">
+
+<a name="q_archivy"></a>
+
+<div class="links-title">      
+
+Archivy</div><br><a href="index.php?archive=200510" class="links">říjen 2005</a><br><a href="index.php?archive=200509" class="links">září 2005</a><br><a href="index.php?archive=200508" class="links">srpen 2005</a><br><a href="index.php?archive=200507" class="links">červenec 2005</a><br><a href="index.php?archive=200506" class="links">červen 2005</a><br><a href="index.php?archive=200505" class="links">květen 2005</a><br><a href="index.php?archive=200504" class="links">duben 2005</a><br><a href="index.php?archive=200503" class="links">březen 2005</a><br><a href="index.php?archive=200502" class="links">únor 2005</a><br><a href="index.php?archive=200501" class="links">leden 2005</a><br><a href="index.php?archive=200412" class="links">prosinec 2004</a><br><a href="index.php?archive=200411" class="links">listopad 2004</a><br><a href="index.php?archive=200410" class="links">říjen 2004</a><br><a href="index.php?archive=200409" class="links">září 2004</a><br><a href="index.php?archive=200408" class="links">srpen 2004</a><br><a href="index.php?archive=200407" class="links">červenec 2004</a><br><a href="index.php?archive=200406" class="links">červen 2004</a><br><a href="index.php?archive=200405" class="links">květen 2004</a><br><a href="index.php?archive=200404" class="links">duben 2004</a><br><a href="index.php?archive=200403" class="links">březen 2004</a><br><a href="index.php?archive=200402" class="links">únor 2004</a><br><a href="index.php?archive=200401" class="links">leden 2004</a><br><a href="index.php?archive=200312" class="links">prosinec 2003</a><br><a href="index.php?archive=200311" class="links">listopad 2003</a><br><a href="index.php?archive=200310" class="links">říjen 2003</a><br><a href="index.php?archive=200309" class="links">září 2003</a><br><a href="index.php?archive=200308" class="links">srpen 2003</a><br><a href="index.php?archive=200307" class="links">červenec 2003</a><br><a href="index.php?archive=200306" class="links">červen 2003</a><br><a href="index.php?archive=200305" class="links">květen 2003</a><br><a href="index.php?archive=200304" class="links">duben 2003</a><br><a href="index.php?archive=200303" class="links">březen 2003</a><br>
+
+<br>
+
+<center>
+
+<a href="index.php?archive=0">Všechny archivy</A></center>
+
+<br>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<div class="links-title">      
+
+Hrálo mi tu:</div><br>
+
+<center>
+
+<p>Nahoru po schodisti dolu band - Praporcice Hildegarda <i>(Album Prvni )</i></p><p>Kokrment - zavolejmyjmeno</p><p>Kokrment - zavolejmyjmeno</p><p>Depeche Mode - 02 - Walking In My Shoes <i>(The Singles 86>98 (cd 2 of 2))</i></p><p>Jiří Korn - Karel nese asi čaj <i>(Totální hity)</i></p>
+
+</center>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<div class="links-title">      
+
+Počítadla atd.</div><br>
+
+<center>
+
+<!-- extra2 -->
+
+<a href="http://counter.cnw.cz/ucet.cgi?login=blogmalycz" target=_blank><img src="http://counter.cnw.cz/dungeon.cgi?blogmalycz&amp;6&amp;000000&amp;fff1d8&amp;on" alt="[CNW:Counter]" border=0></A><br>
+
+<!-- extra3 -->
+
+<SCRIPT language="JavaScript" type="text/javascript">
+
+<!-- 
+
+document.write("<IMG src=\"http://counter.cnw.cz/trackit.cgi?blogmalycz&t2&" + escape(top.document.referrer) + "\" alt=\"CNW:Tracker\" border=\"0\" width=\"11\" height=\"11\">"); 
+
+// -->
+
+</SCRIPT>      <br>
+
+<!-- extra9 -->
+
+<a href="http://www.neskodny.own.cz/arthurdent.txt">Veřejný PGP klíč - Arthur Dent</a><br>
+
+
+
+      <P><A href="http://www.maly.cz/"><IMG 
+
+      alt="[Powered by Blox]" src="blox.gif" 
+
+      width="88" border="0"></A> </P>
+
+</center>
+
+<!--<div class="links-title"><a href="#topofpage">Nahoru</a></div>-->
+
+</div>
+
+
+
+<div class="linky">
+
+<a name="q_autori"></a>
+
+<div class="links-title">      
+
+Autoři</div>
+
+<div class="autori">Arthur Dent</div>
+
+ICQ: <img src='http://wwp.icq.com/scripts/online.dll?icq=158504315&amp;img=5' alt="ICQ: 158504315"> 158504315<br>
+
+MAIL: <a href="mailto:blog@maly.cz">blog at maly.cz</a>
+
+<div class="autori">White Dog</div>
+
+ICQ: <img src='http://wwp.icq.com/scripts/online.dll?icq=155168543&amp;img=5' alt="ICQ: 155168543"> 155168543<br>
+
+MAIL: <a href="mailto:White_dog@seznam.cz">White_dog at seznam.cz</a>
+
+<br><br><center><b>V žádném případě si nepřejeme na tyto adresy dostávat reklamní maily, tak to prosím respektujte!</b></center>
+
+<br><br><center><a href="http://neskodny.own.cz/netiketa.html"><img src="netiketa_velka.gif" border="0" alt="netiketa"></a></center>
+
+
+
+<div class="links-title"><a href="#topofpage" class="links">Nahoru</a></div>
+
+</div>
+
+
+
+</div> <!--navigace-->
+
+
+
+
+
+<hr style="clear:both;margin-top:0;visibility:hidden;">
+
+</div>
+
+
+
+
+
+</div>
+
+</body></html>
+
+
+
+
