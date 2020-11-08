@@ -7,6 +7,7 @@ var n = window.location.search
 if (n.indexOf("?item=")>=0) {
 	n = n.substr(6)
 	pn = "/pnc"+n+".html"
+	document.location.href = pn
 }
 console.log(pn)
 /*
