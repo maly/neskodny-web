@@ -2,6 +2,12 @@
 <html><head><script>
 	var redir=[]
 var pn = window.location.pathname
+var n = window.location.search
+
+if (n.indexOf("?item=")>=0) {
+	n = n.substr(6)
+	pn = "/pnc"+n+".html"
+}
 console.log(pn)
 /*
 if (redir[pn]) {
